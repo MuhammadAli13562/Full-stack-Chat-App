@@ -1,0 +1,81 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Message {
+
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content String @db.Text
+  author User  @relation(fields: [authorId] , references: [id] , onUpdate: Cascade , onDelete: Cascade)
+  authorId Int
+  room Room @relation(fields: [roomId] ,references: [id] , onDelete: Cascade , onUpdate: Cascade)
+  roomId Int
+  reactions Reaction[]
+
+}
+
+model Reaction {
+  id Int @id @default(autoincrement())
+  type String
+  message Message @relation(fields: [messageId] , references: [id] , onDelete: Cascade , onUpdate: Cascade)
+  messageId Int 
+  user User @relation(fields: [userId] , references: [id] , onUpdate: Cascade  , onDelete: Cascade)
+  userId Int 
+
+  @@unique([userId , messageId])
+}
+
+model User {
+
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  username String @unique
+  passwordHash String
+  profile Profile?
+  messages Message[]
+  reactions Reaction[]
+  contacts User[] @relation("UserContacts" )
+  contactOf User[] @relation("UserContacts")
+  rooms Room[] @relation("RoomParticipants")
+  adminOfRooms Room[] @relation("AdminOfRooms")
+}
+
+
+
+
+model Room {
+
+  id Int @id @default(autoincrement())
+  code String @unique @default(uuid())
+  messages Message[]
+  name String
+  participants User[] @relation("RoomParticipants")
+  admin User? @relation("AdminOfRooms" , fields: [adminId] , references: [id] , onDelete: Cascade , onUpdate: Cascade)
+  adminId Int? 
+  isPeer2Peer Boolean @default(false)
+
+}
+
+
+model Profile {
+
+  id Int @id @default(autoincrement())
+  bio String?
+  image String?
+  user User @relation(fields: [userId] ,references: [id] , onDelete: Cascade , onUpdate: Cascade)
+  userId Int   @unique
+
+}
+
+
+
