@@ -1,0 +1,14 @@
+{
+    "name": "chat-app-workspace",
+    "workspaces" : ["apps/*"],
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "dev": "npm run --parallel dev"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+  }
+  
