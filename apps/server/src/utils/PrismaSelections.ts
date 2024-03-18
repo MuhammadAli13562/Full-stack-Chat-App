@@ -130,3 +130,7 @@ export const HistoricalDataSelect = {
     },
   },
 } satisfies Prisma.UserSelect;
+
+export type MyHistoricalDataPayload = Prisma.UserGetPayload<{
+  select: typeof HistoricalDataSelect;
+}>;

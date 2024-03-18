@@ -10,6 +10,7 @@ import {
 import prisma from "../../prisma/prismaClient";
 import { addtoContacts } from "../../services/userService";
 import { verifyJwtToken } from "../../services/authService";
+import { WEBSOCKET_TAGS } from "types";
 
 export const SocketServerInit = (server: http.Server) => {
   const io = new Server(server, { cors: { origin: "*" } });
@@ -17,13 +18,13 @@ export const SocketServerInit = (server: http.Server) => {
   io.on("connection", async (socket) => {
     const token = socket.handshake.auth.token;
     const id = await verifyJwtToken(token);
-    const userId = id?.id || 0;
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //                                      DEFAULT ROOM JOINING
+    const userId = id?.id || null;
 
-    console.log("in sockets server : ", userId);
-
-    const loadDefaults = async () => {
+    if (!userId) {
+      socket.disconnect();
+      return;
+    }
+    const loadHistoricalData = async () => {
       const rooms = await prisma.user.findUnique({
         where: {
           id: userId,
@@ -37,50 +38,62 @@ export const SocketServerInit = (server: http.Server) => {
         },
       });
 
-      const roomsArray = rooms?.rooms.map((room) => "room" + room.id);
-
-      // Join room previously saved in database
-      if (roomsArray) {
-        socket.join(roomsArray);
-        socket.emit("default-rooms", rooms);
-      }
-
-      // Also join a room referring to the user's own id
-      socket.join("user" + userId);
+      const roomsArray = rooms?.rooms.map((room) => "room_" + room.id);
+      if (roomsArray) socket.join(roomsArray);
+      socket.join("user_" + userId);
     };
 
-    loadDefaults();
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //                                             EVENTS
+    loadHistoricalData();
 
     socket.on(
-      "message-from-client",
+      WEBSOCKET_TAGS.CLIENT.MessageFromClient,
       async (roomId: number, message: string) => {
         const msg = await StoreMessageInDB(userId, roomId, message);
-        if (msg) io.in("room" + roomId).emit("message-from-server", msg);
+        if (msg)
+          io.in("room" + roomId).emit(
+            WEBSOCKET_TAGS.SERVER.MessageFromServer,
+            msg
+          );
       }
     );
 
-    socket.on("create-new-group", async (GroupInfo: GroupInfoType) => {
-      const room = await CreateNewGroupAsAdmin(userId, GroupInfo);
-      const Ids = GroupInfo.contactIds.map((contactId) => "user" + contactId);
-      Ids.push("user" + userId);
+    socket.on(
+      WEBSOCKET_TAGS.CLIENT.CreateNewGroup,
+      async (GroupInfo: GroupInfoType) => {
+        const room = await CreateNewGroupAsAdmin(userId, GroupInfo);
+        const Ids = GroupInfo.contactIds.map((contactId) => "user" + contactId);
+        Ids.push("user" + userId);
 
-      if (room) io.in(Ids).emit("new-room-from-server", room);
-    });
+        if (room)
+          io.in(Ids).emit(WEBSOCKET_TAGS.SERVER.NewRoomFromServer, room);
+      }
+    );
 
-    socket.on("add-new-contact", async (contactId: number) => {
-      const contact = await addtoContacts(userId, contactId);
-      const room = await CreateP2PRoom(userId, contactId);
-      if (contact) io.in("user" + userId).emit("new-contact", contact);
-      if (room)
-        io.in(["user" + userId, "user" + contactId]).emit("new-room", room);
-    });
+    socket.on(
+      WEBSOCKET_TAGS.CLIENT.AddNewContact,
+      async (contactId: number) => {
+        const contact = await addtoContacts(userId, contactId);
+        const room = await CreateP2PRoom(userId, contactId);
+        if (contact)
+          io.in("user" + userId).emit(
+            WEBSOCKET_TAGS.SERVER.NewContactFromServer,
+            contact
+          );
+        if (room)
+          io.in(["user" + userId, "user" + contactId]).emit(
+            WEBSOCKET_TAGS.SERVER.NewRoomFromServer,
+            room
+          );
+      }
+    );
 
-    socket.on("fetch-room-data", async (roomId: number) => {
+    socket.on(WEBSOCKET_TAGS.CLIENT.FetchRoomData, async (roomId: number) => {
       const room = await fetchRoomData(roomId);
-      if (room) io.in("user" + userId).emit("room-data", room);
+      if (room)
+        io.in("user" + userId).emit(
+          WEBSOCKET_TAGS.SERVER.RoomDataFromServer,
+          room
+        );
     });
   });
 };
