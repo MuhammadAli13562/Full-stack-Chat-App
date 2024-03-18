@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { GetHistoricalData } from "../../services/historicalService";
+import { GetHistoricalData } from "../../services";
 
 export default function defaultController(): Router {
   const router = Router();

@@ -1,10 +1,11 @@
 import { Request, Response, Router } from "express";
 import {
+  CreateNewUser,
   generateJwtToken,
+  isUserRegistered,
   verifyJwtToken,
   verifyLogin,
-} from "../../services/authService";
-import { isUserRegistered, CreateNewUser } from "../../services/userService";
+} from "../../services";
 
 export default function authController(): Router {
   const router = Router();

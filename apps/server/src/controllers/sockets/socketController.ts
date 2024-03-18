@@ -8,9 +8,9 @@ import {
   fetchRoomData,
 } from "../../services/roomService";
 import prisma from "../../prisma/prismaClient";
-import { addtoContacts } from "../../services/userService";
-import { verifyJwtToken } from "../../services/authService";
-import { WEBSOCKET_TAGS } from "types";
+
+import { WEBSOCKET_TAGS } from "packages/constants";
+import { verifyJwtToken, addtoContacts } from "../../services";
 
 export const SocketServerInit = (server: http.Server) => {
   const io = new Server(server, { cors: { origin: "*" } });
@@ -45,55 +45,33 @@ export const SocketServerInit = (server: http.Server) => {
 
     loadHistoricalData();
 
-    socket.on(
-      WEBSOCKET_TAGS.CLIENT.MessageFromClient,
-      async (roomId: number, message: string) => {
-        const msg = await StoreMessageInDB(userId, roomId, message);
-        if (msg)
-          io.in("room" + roomId).emit(
-            WEBSOCKET_TAGS.SERVER.MessageFromServer,
-            msg
-          );
-      }
-    );
+    socket.on(WEBSOCKET_TAGS.CLIENT.MessageFromClient, async (roomId: number, message: string) => {
+      const msg = await StoreMessageInDB(userId, roomId, message);
+      if (msg) io.in("room" + roomId).emit(WEBSOCKET_TAGS.SERVER.MessageFromServer, msg);
+    });
 
-    socket.on(
-      WEBSOCKET_TAGS.CLIENT.CreateNewGroup,
-      async (GroupInfo: GroupInfoType) => {
-        const room = await CreateNewGroupAsAdmin(userId, GroupInfo);
-        const Ids = GroupInfo.contactIds.map((contactId) => "user" + contactId);
-        Ids.push("user" + userId);
+    socket.on(WEBSOCKET_TAGS.CLIENT.CreateNewGroup, async (GroupInfo: GroupInfoType) => {
+      const room = await CreateNewGroupAsAdmin(userId, GroupInfo);
+      const Ids = GroupInfo.contactIds.map((contactId) => "user" + contactId);
+      Ids.push("user" + userId);
 
-        if (room)
-          io.in(Ids).emit(WEBSOCKET_TAGS.SERVER.NewRoomFromServer, room);
-      }
-    );
+      if (room) io.in(Ids).emit(WEBSOCKET_TAGS.SERVER.NewRoomFromServer, room);
+    });
 
-    socket.on(
-      WEBSOCKET_TAGS.CLIENT.AddNewContact,
-      async (contactId: number) => {
-        const contact = await addtoContacts(userId, contactId);
-        const room = await CreateP2PRoom(userId, contactId);
-        if (contact)
-          io.in("user" + userId).emit(
-            WEBSOCKET_TAGS.SERVER.NewContactFromServer,
-            contact
-          );
-        if (room)
-          io.in(["user" + userId, "user" + contactId]).emit(
-            WEBSOCKET_TAGS.SERVER.NewRoomFromServer,
-            room
-          );
-      }
-    );
+    socket.on(WEBSOCKET_TAGS.CLIENT.AddNewContact, async (contactId: number) => {
+      const contact = await addtoContacts(userId, contactId);
+      const room = await CreateP2PRoom(userId, contactId);
+      if (contact) io.in("user" + userId).emit(WEBSOCKET_TAGS.SERVER.NewContactFromServer, contact);
+      if (room)
+        io.in(["user" + userId, "user" + contactId]).emit(
+          WEBSOCKET_TAGS.SERVER.NewRoomFromServer,
+          room
+        );
+    });
 
     socket.on(WEBSOCKET_TAGS.CLIENT.FetchRoomData, async (roomId: number) => {
       const room = await fetchRoomData(roomId);
-      if (room)
-        io.in("user" + userId).emit(
-          WEBSOCKET_TAGS.SERVER.RoomDataFromServer,
-          room
-        );
+      if (room) io.in("user" + userId).emit(WEBSOCKET_TAGS.SERVER.RoomDataFromServer, room);
     });
   });
 };

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { MyRoomPayload } from "types"
+import { MyRoomPayload } from "packages/types"
 
 const initialState: MyRoomPayload[] = []
 

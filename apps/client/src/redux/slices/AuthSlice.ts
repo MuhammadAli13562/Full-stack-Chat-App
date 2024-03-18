@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { MyHistoricalDataPayload } from "types"
+import { MyHistoricalDataPayload } from "packages/types"
 
 const initialState = {
   isLoggedIn: false,

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { MyProfilePayload } from "types"
+import { MyProfilePayload } from "packages/types"
 
 const initialState: MyProfilePayload = {}
 const ProfileSlice = createSlice({

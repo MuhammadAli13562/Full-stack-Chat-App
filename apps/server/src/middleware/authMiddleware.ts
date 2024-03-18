@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from "express";
-import { verifyJwtToken } from "../services/authService";
+import { Response, NextFunction } from "express";
+import { verifyJwtToken } from "../services";
 
 export const AuthenticateUser = async (
   req: any,

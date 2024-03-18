@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
-import { updateProfile } from "../../services/userService";
 import { AuthenticateUser } from "../../middleware/authMiddleware";
+import { updateProfile } from "../../services";
 
 type ProfileType = {
   bio: string;
