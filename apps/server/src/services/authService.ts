@@ -10,7 +10,7 @@ interface tokenPayload {
 }
 
 const verifyLogin = async (username: string, password: string) => {
-  const passHashfromLogin = generatepassHash(username, password);
+  const passHashfromLogin = generateHash(username, password);
   const data = await prisma.user.findUnique({
     where: {
       username,
@@ -19,10 +19,6 @@ const verifyLogin = async (username: string, password: string) => {
   });
 
   return data !== null;
-};
-
-const generatepassHash = (username: string, password: string) => {
-  return generateHash(username, password);
 };
 
 const verifyJwtToken = async (token: string) => {
@@ -43,7 +39,7 @@ const verifyJwtToken = async (token: string) => {
 };
 
 const generateJwtToken = (username: string, password: string) => {
-  const passwordHash = generatepassHash(username, password);
+  const passwordHash = generateHash(username, password);
   const payload: tokenPayload = { username, passwordHash };
   const token = jwt.sign(payload, secret, { expiresIn: "1h" });
   return token;

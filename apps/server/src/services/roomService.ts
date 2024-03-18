@@ -1,7 +1,15 @@
 import prisma from "../prisma/prismaClient";
+import { roomSelect } from "../utils/PrismaSelections";
+import generateP2PRoomCodes from "../utils/generateP2Pcode";
 
-// Creating New Peer to Peer Rooms   ( ON ADDING THEM AS CONTACT )
+export type GroupInfoType = {
+  // type of GroupInfo from client
+  contactIds: number[];
+  name: string;
+};
+
 export const CreateP2PRoom = async (userId: number, contactId: number) => {
+  // Creating New Peer to Peer Rooms   ( ON ADDING THEM AS CONTACT )
   const code = await generateP2PRoomCodes(userId, contactId);
   const prevRoom = await prisma.room.findUnique({
     where: {
@@ -27,26 +35,14 @@ export const CreateP2PRoom = async (userId: number, contactId: number) => {
       },
       name: "p2p",
     },
+    select: roomSelect,
   });
 
   return newRoom;
 };
 
-// generate peer to peer room codes
-const generateP2PRoomCodes = async (userId: number, contactId: number) => {
-  const users = [userId, contactId].sort();
-  const code = users.join("_");
-  return code;
-};
-
-// type of GroupInfo from client
-export type GroupInfoType = {
-  contactIds: number[];
-  name: string;
-};
-
-// Creating New Multiple User Rooms  ( ON CREATE GROUP BY ADMIN )
 export const CreateNewGroupAsAdmin = async (
+  // Creating New Multiple-User Room  ( ON CREATE GROUP BY ADMIN )
   userId: number,
   GroupInfo: GroupInfoType
 ) => {
@@ -67,13 +63,14 @@ export const CreateNewGroupAsAdmin = async (
         }),
       },
     },
+    select: roomSelect,
   });
 
   return room;
 };
 
-// Add Other Users to Room
 export const AddUserstoRoomAsAdmin = async (
+  // Add Other Users to Room
   roomid: number,
   contactIds: number[]
 ) => {
@@ -88,25 +85,19 @@ export const AddUserstoRoomAsAdmin = async (
         }),
       },
     },
-    include: {
-      participants: true,
-    },
+    select: roomSelect,
   });
 
   return room;
 };
 
-// Fetch all Room Data
 export const fetchRoomData = async (roomid: number) => {
+  // Fetch all Room Data
   const room = await prisma.room.findUnique({
     where: {
       id: roomid,
     },
-    include: {
-      participants: true,
-      messages: true,
-      admin: true,
-    },
+    select: roomSelect,
   });
 
   return room;

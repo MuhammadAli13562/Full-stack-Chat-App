@@ -1,4 +1,9 @@
 import prisma from "../prisma/prismaClient";
+import {
+  contactSelect,
+  profileSelect,
+  userSelect,
+} from "../utils/PrismaSelections";
 import generateHash from "../utils/generateHash";
 
 type userInfotype = {
@@ -25,6 +30,7 @@ export const CreateNewUser = async (userInfo: userInfotype) => {
         email,
         passwordHash,
       },
+      select: userSelect,
     });
     return user;
   } catch (error: any) {
@@ -63,6 +69,7 @@ export const updateProfile = async (
       where: { userId },
       update: newprofile,
       create: newprofile,
+      select: profileSelect,
     });
 
     if (!profile) throw Error("Error creating profile");
@@ -86,6 +93,7 @@ export const addtoContacts = async (userId: number, contactId: number) => {
           },
         },
       },
+      select: contactSelect,
     });
     if (!contact) throw Error("Cant update contacts");
     return contact;

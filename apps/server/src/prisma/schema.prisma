@@ -26,6 +26,8 @@ model Message {
 model Reaction {
   id Int @id @default(autoincrement())
   type String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   message Message @relation(fields: [messageId] , references: [id] , onDelete: Cascade , onUpdate: Cascade)
   messageId Int 
   user User @relation(fields: [userId] , references: [id] , onUpdate: Cascade  , onDelete: Cascade)
@@ -57,6 +59,8 @@ model Room {
 
   id Int @id @default(autoincrement())
   code String @unique @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   messages Message[]
   name String
   participants User[] @relation("RoomParticipants")

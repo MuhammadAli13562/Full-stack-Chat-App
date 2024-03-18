@@ -1,9 +1,8 @@
-// Adding New Messages In Rooms
-
 import prisma from "../prisma/prismaClient";
+import { messageSelect, reactionSelect } from "../utils/PrismaSelections";
 
-// Returns a Message
 const StoreMessageInDB = async (
+  // Returns a Message
   userId: number,
   roomId: number,
   message: string
@@ -15,6 +14,7 @@ const StoreMessageInDB = async (
         authorId: userId,
         roomId,
       },
+      select: messageSelect,
     });
 
     return msg;
@@ -24,8 +24,8 @@ const StoreMessageInDB = async (
   }
 };
 
-// Returns a Reaction to Message
 const ReactToMessages = async (
+  // Returns a Reaction to Message
   userId: number,
   messageId: number,
   type: string
@@ -45,6 +45,7 @@ const ReactToMessages = async (
     },
     update: newReaction,
     create: newReaction,
+    select: reactionSelect,
   });
 
   return Reaction;
