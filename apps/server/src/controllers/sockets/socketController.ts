@@ -18,7 +18,7 @@ export const SocketServerInit = (server: http.Server) => {
   io.on("connection", async (socket) => {
     const token = socket.handshake.auth.token;
     const id = await verifyJwtToken(token);
-    const userId = id?.id || null;
+    const userId = id ? id.id : null;
 
     if (!userId) {
       socket.disconnect();

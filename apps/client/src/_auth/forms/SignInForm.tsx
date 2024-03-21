@@ -14,9 +14,15 @@ import {
 } from "../../components/ui/form"
 import { Input } from "../../components/ui/input"
 import { Link, useNavigate } from "react-router-dom"
+import { SignIn } from "../../api/auth"
+import { useVerificationOnMount } from "../../lib/auth"
+import { toast } from "react-toastify"
+import { useState } from "react"
 
 const SignInForm = () => {
+  useVerificationOnMount()
   const navigate = useNavigate()
+  const [disableBtn, setDisableBtn] = useState(false)
   const form = useForm<z.infer<typeof SignInFormValidation>>({
     resolver: zodResolver(SignInFormValidation),
     defaultValues: {
@@ -25,9 +31,21 @@ const SignInForm = () => {
     },
   })
 
-  function onSubmit(values: z.infer<typeof SignInFormValidation>) {
-    navigate("/")
-    console.log(values)
+  async function onSubmit(creds: z.infer<typeof SignInFormValidation>) {
+    setDisableBtn(true)
+    const resp = await SignIn(creds)
+    console.log("resp : ", resp)
+
+    if (resp?.status === 200) {
+      toast.success("Sign In Successful")
+      localStorage.setItem("token", resp.headers.token)
+      navigate("/")
+      return
+    } else if (resp?.status === 401) toast.error("Invalid Username Or Password")
+    else toast.error("Server Error ! ")
+
+    console.log(creds)
+    setDisableBtn(false)
   }
 
   return (
@@ -48,7 +66,7 @@ const SignInForm = () => {
               <FormControl>
                 <Input
                   className="form-field"
-                  placeholder="example123"
+                  placeholder="johndoe"
                   {...field}
                 />
               </FormControl>
@@ -76,12 +94,16 @@ const SignInForm = () => {
             </FormItem>
           )}
         />
-        <Button className="w-full primary-btn " type="submit">
+        <Button
+          disabled={disableBtn}
+          className="w-full primary-btn "
+          type="submit"
+        >
           Sign In
         </Button>
         <div className="text-sm text-gray-400">
           <span>Don't have an account ? </span>
-          <Link to="/sign-up" className="text-primary-lighter ">
+          <Link to="/sign-up" className="form-links ">
             Sign Up
           </Link>
         </div>

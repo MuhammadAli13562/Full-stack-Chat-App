@@ -47,7 +47,7 @@ export default function authController(): Router {
       const isRegistered = await isUserRegistered(userInfo);
 
       if (isRegistered) {
-        res.status(401).send({ status: "Email or Username Already in use !" });
+        res.status(401).send({ status: "duplicate" });
         return;
       }
 

@@ -216,11 +216,12 @@
   @apply bg-secondary border-none h-[50px];
 }
 
+.form-links {
+  @apply text-blue-500;
+}
+
 /* Button Component */
 
 .primary-btn {
   @apply bg-primary hover:bg-primary  text-white h-[45px];
-}
-
-.bg-grad-color {
 }

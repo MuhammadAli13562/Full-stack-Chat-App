@@ -14,6 +14,8 @@ import {
 } from "../../components/ui/form"
 import { Input } from "../../components/ui/input"
 import { Link, useNavigate } from "react-router-dom"
+import { SignUp } from "../../api/auth"
+import { toast } from "react-toastify"
 
 const SignUpForm = () => {
   const navigate = useNavigate()
@@ -25,9 +27,18 @@ const SignUpForm = () => {
     },
   })
 
-  function onSubmit(values: z.infer<typeof SignUpFormValidation>) {
-    navigate("/")
-    console.log(values)
+  async function onSubmit(creds: z.infer<typeof SignUpFormValidation>) {
+    const resp = await SignUp(creds)
+    console.log("resp h :", resp)
+
+    if (resp?.status === 200) {
+      toast.success("Registration Successful")
+      navigate("/sign-in")
+      return
+    } else if (resp?.data.status === "duplicate")
+      toast.error("Email or Username taken")
+    else toast.error("Server Error !")
+    console.log(creds)
   }
   return (
     <>
@@ -69,7 +80,7 @@ const SignUpForm = () => {
                 <FormControl>
                   <Input
                     className="form-field"
-                    placeholder="123@example.com"
+                    placeholder="123@abc.com"
                     {...field}
                   />
                 </FormControl>
@@ -87,7 +98,7 @@ const SignUpForm = () => {
                 <FormControl>
                   <Input
                     className="form-field"
-                    placeholder="abc007"
+                    placeholder="johndoe"
                     {...field}
                   />
                 </FormControl>
@@ -120,7 +131,7 @@ const SignUpForm = () => {
           </Button>
           <div className="text-sm text-gray-400">
             <span>Already have an account ? </span>
-            <Link to="/sign-in" className=" text-primary-lighter ">
+            <Link to="/sign-in" className="form-links ">
               Sign In
             </Link>
           </div>

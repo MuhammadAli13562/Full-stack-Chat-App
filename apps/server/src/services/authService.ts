@@ -22,20 +22,25 @@ const verifyLogin = async (username: string, password: string) => {
 };
 
 const verifyJwtToken = async (token: string) => {
-  const decoded = jwt.verify(token, secret) as tokenPayload;
-  const { username, passwordHash } = decoded;
+  try {
+    const decoded = jwt.verify(token, secret) as tokenPayload;
+    const { username, passwordHash } = decoded;
 
-  const data = await prisma.user.findUnique({
-    where: {
-      username,
-      passwordHash,
-    },
-    select: {
-      id: true,
-    },
-  });
+    const data = await prisma.user.findUnique({
+      where: {
+        username,
+        passwordHash,
+      },
+      select: {
+        id: true,
+      },
+    });
 
-  return data;
+    return data;
+  } catch (error: any) {
+    console.log("Verification Error : ", error.message);
+  }
+  return false;
 };
 
 const generateJwtToken = (username: string, password: string) => {
