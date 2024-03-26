@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom"
-import { useVerificationOnMount } from "../lib/auth"
+import { useVerificationOnMount } from "../lib/hooks/useVerificationOnMount"
+import React from "react"
 
 const RootLayout = () => {
   useVerificationOnMount()

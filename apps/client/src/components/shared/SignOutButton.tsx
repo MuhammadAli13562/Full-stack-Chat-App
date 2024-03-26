@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom"
-import { SignOut } from "../../api/auth"
 import { Button } from "../ui/button"
+import React from "react"
+import { toast } from "react-toastify"
 
 const SignOutButton = () => {
   const navigate = useNavigate()
@@ -9,8 +10,9 @@ const SignOutButton = () => {
     <Button
       className="primary-btn"
       onClick={() => {
-        SignOut()
+        localStorage.removeItem("token")
         navigate("/sign-in")
+        toast.info("User logged out")
       }}
     >
       Log Out

@@ -14,10 +14,12 @@ import {
 } from "../../components/ui/form"
 import { Input } from "../../components/ui/input"
 import { Link, useNavigate } from "react-router-dom"
-import { SignUp } from "../../api/auth"
 import { toast } from "react-toastify"
+import React from "react"
+import { useSignUpUserMutation } from "src/redux/api/auth"
 
 const SignUpForm = () => {
+  const [SignUp] = useSignUpUserMutation()
   const navigate = useNavigate()
   const form = useForm<z.infer<typeof SignUpFormValidation>>({
     resolver: zodResolver(SignUpFormValidation),
@@ -28,17 +30,21 @@ const SignUpForm = () => {
   })
 
   async function onSubmit(creds: z.infer<typeof SignUpFormValidation>) {
-    const resp = await SignUp(creds)
-    console.log("resp h :", resp)
-
-    if (resp?.status === 200) {
+    try {
+      const resp = await toast.promise(
+        SignUp(creds).unwrap(),
+        {
+          pending: "Registering New User",
+        },
+        { position: "top-center" },
+      )
       toast.success("Registration Successful")
-      navigate("/sign-in")
-      return
-    } else if (resp?.data.status === "duplicate")
-      toast.error("Email or Username taken")
-    else toast.error("Server Error !")
-    console.log(creds)
+      localStorage.setItem("token", resp.token)
+    } catch (error: any) {
+      error.status === 409
+        ? toast.error("Email or Username Already taken")
+        : toast.error("Registration Failed ! Try again.")
+    }
   }
   return (
     <>

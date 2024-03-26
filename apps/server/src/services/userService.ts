@@ -1,9 +1,5 @@
 import prisma from "../prisma/prismaClient";
-import {
-  contactSelect,
-  profileSelect,
-  userSelect,
-} from "../utils/PrismaSelections";
+import { contactSelect, profileSelect, userSelect } from "../utils/PrismaSelections";
 import generateHash from "../utils/generateHash";
 
 type userInfotype = {
@@ -56,15 +52,12 @@ export const isUserRegistered = async (userInfo: userInfotype) => {
   return users.length !== 0;
 };
 
-export const updateProfile = async (
-  userId: number,
-  profileData: profileDatatype
-) => {
-  const newprofile = {
-    userId,
-    ...profileData,
-  };
+export const updateProfile = async (userId: number, profileData: profileDatatype) => {
   try {
+    const newprofile = {
+      userId,
+      ...profileData,
+    };
     const profile = await prisma.profile.upsert({
       where: { userId },
       update: newprofile,
@@ -76,7 +69,7 @@ export const updateProfile = async (
     return profile;
   } catch (error: any) {
     console.log("Error : ", error.message);
-    return null;
+    throw error;
   }
 };
 

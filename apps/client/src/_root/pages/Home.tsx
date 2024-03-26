@@ -1,4 +1,5 @@
 import SignOutButton from "../../components/shared/SignOutButton"
+import React from "react"
 
 const Home = () => {
   return (

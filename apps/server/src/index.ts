@@ -13,8 +13,7 @@ app.use(cors({ exposedHeaders: ["token"] }));
 
 // Api Route Handlers
 app.use("/auth", authController());
-app.use("/user/default", defaultController());
-app.use("/user/update", userController());
+app.use("/user", defaultController(), userController());
 
 // Initialize Socket Server
 SocketServerInit(server);

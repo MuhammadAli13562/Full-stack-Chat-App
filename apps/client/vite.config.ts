@@ -1,10 +1,17 @@
 import { defineConfig } from "vitest/config"
 import react from "@vitejs/plugin-react"
 import { resolve } from "node:path"
+import viteTsconfigPaths from "vite-tsconfig-paths"
+import svgrPlugin from "vite-plugin-svgr"
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      jsxRuntime: "classic", // to resolve paths
+    }),
+    viteTsconfigPaths(),
+    svgrPlugin(),
+  ],
   server: {
     open: true,
   },

@@ -47,16 +47,20 @@ export default function authController(): Router {
       const isRegistered = await isUserRegistered(userInfo);
 
       if (isRegistered) {
-        res.status(401).send({ status: "duplicate" });
+        res.status(409).send({ status: "duplicate" });
         return;
       }
 
       const user = await CreateNewUser(userInfo);
       if (user) {
+        const token = generateJwtToken(username, password);
+        res.set("token", token);
+        console.log("token issued");
+
         res.status(200).send({ status: "New User Created Successfully !" });
         return;
       }
-      res.status(401).send({ status: "Error Creating New User ! Try again !" });
+      res.status(500).send({ status: "Error Creating New User ! Try again !" });
       return;
     }
 
