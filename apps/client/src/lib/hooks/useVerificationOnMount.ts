@@ -1,9 +1,9 @@
 import { useEffect } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
-import { useVerifyUserLoginMutation } from "src/redux/api/auth"
+import { useVerifyUserLoginMutation } from "src/redux/api/auth/auth"
 
-export function useVerificationOnMount() {
+export const useVerificationOnMount = () => {
   const navigate = useNavigate()
   const path = useLocation().pathname
   const [VerifyUser] = useVerifyUserLoginMutation()
@@ -13,11 +13,12 @@ export function useVerificationOnMount() {
       try {
         const resp: any = await VerifyUser()
         if (resp.error) throw Error(resp.error.data.status)
-        console.log("verified hgere ", resp)
+        console.log("In verification", resp)
 
-        if (path !== "/")
+        if (path === "/sign-in") {
           toast.info("Already Signed In", { position: "top-center" })
-        navigate("/")
+          navigate("/")
+        }
       } catch (error: any) {
         console.log("error ver : ", error.message)
 

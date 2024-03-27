@@ -1,11 +1,15 @@
 import { Request, Response, Router } from "express";
 import { GetHistoricalData } from "../../services";
+import { AuthenticateUser } from "../../middleware/authMiddleware";
 
 export default function defaultController(): Router {
   const router = Router();
 
-  router.get("/default", async (req: Request, res: Response) => {
+  router.get("/default", AuthenticateUser, async (req: Request, res: Response) => {
     const { username } = req.headers as { username: string };
+
+    console.log("Default Requested at : ");
+
     try {
       if (!username) throw Error("No Username Provided");
       const user_data = await GetHistoricalData(username);

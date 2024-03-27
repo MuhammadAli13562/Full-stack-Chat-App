@@ -1,6 +1,6 @@
 import prisma from "../prisma/prismaClient";
-import { roomSelect } from "../utils/PrismaSelections";
-import generateP2PRoomCodes from "../utils/generateP2Pcode";
+import { roomSelect } from "../utils/functions/PrismaSelections";
+import generateP2PRoomCodes from "../utils/functions/generateP2Pcode";
 
 export type GroupInfoType = {
   // type of GroupInfo from client

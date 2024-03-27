@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
 import http from "http";
-import { StoreMessageInDB } from "../../services/messageService";
+import { ReactToMessages, StoreMessageInDB } from "../../services/messageService";
 import {
   CreateNewGroupAsAdmin,
   CreateP2PRoom,
@@ -11,6 +11,7 @@ import prisma from "../../prisma/prismaClient";
 
 import { WEBSOCKET_TAGS } from "packages/constants";
 import { verifyJwtToken, addtoContacts } from "../../services";
+import { MessageInfotype, ReactionInfoType } from "../../utils/types";
 
 export const SocketServerInit = (server: http.Server) => {
   const io = new Server(server, { cors: { origin: "*" } });
@@ -45,11 +46,6 @@ export const SocketServerInit = (server: http.Server) => {
 
     loadHistoricalData();
 
-    socket.on(WEBSOCKET_TAGS.CLIENT.MessageFromClient, async (roomId: number, message: string) => {
-      const msg = await StoreMessageInDB(userId, roomId, message);
-      if (msg) io.in("room" + roomId).emit(WEBSOCKET_TAGS.SERVER.MessageFromServer, msg);
-    });
-
     socket.on(WEBSOCKET_TAGS.CLIENT.CreateNewGroup, async (GroupInfo: GroupInfoType) => {
       const room = await CreateNewGroupAsAdmin(userId, GroupInfo);
       const Ids = GroupInfo.contactIds.map((contactId) => "user" + contactId);
@@ -72,6 +68,22 @@ export const SocketServerInit = (server: http.Server) => {
     socket.on(WEBSOCKET_TAGS.CLIENT.FetchRoomData, async (roomId: number) => {
       const room = await fetchRoomData(roomId);
       if (room) io.in("user" + userId).emit(WEBSOCKET_TAGS.SERVER.RoomDataFromServer, room);
+    });
+
+    socket.on(WEBSOCKET_TAGS.CLIENT.MessageFromClient, async (MessageInfo: MessageInfotype) => {
+      const { roomId, content } = MessageInfo;
+      const msg = await StoreMessageInDB(userId, roomId, content);
+      if (msg) io.in("room" + roomId).emit(WEBSOCKET_TAGS.SERVER.MessageFromServer, msg);
+    });
+
+    socket.on(WEBSOCKET_TAGS.CLIENT.ReactionFromClient, async (ReactionInfo: ReactionInfoType) => {
+      const { type, messageId } = ReactionInfo;
+      const reaction = await ReactToMessages(userId, messageId, type);
+      if (reaction)
+        io.in("room" + reaction.message.roomId).emit(
+          WEBSOCKET_TAGS.SERVER.ReactionFromServer,
+          reaction
+        );
     });
   });
 };

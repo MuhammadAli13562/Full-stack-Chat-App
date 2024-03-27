@@ -1,1 +1,2 @@
-export { useVerificationOnMount as default } from "./useVerificationOnMount"
+export { useVerificationOnMount } from "./useVerificationOnMount"
+export { useSocketConnectOnMount } from "./useSocketConnectOnMount"

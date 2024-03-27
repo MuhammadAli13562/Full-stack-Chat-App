@@ -6,9 +6,9 @@ import {
   MyProfilePayload,
   MyContactPayload,
   MyHistoricalDataPayload,
-} from "apps/server/src/utils/PrismaSelections";
+} from "apps/server/src/utils/functions/PrismaSelections";
 
-export {
+export type {
   MyRoomPayload,
   MyUserPayload,
   MyReactionPayload,

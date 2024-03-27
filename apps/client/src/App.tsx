@@ -1,4 +1,3 @@
-import React from "react"
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
@@ -9,7 +8,18 @@ import Home from "./_root/pages/Home"
 import { AuthLayout } from "./_auth/AuthLayout"
 import SignInForm from "./_auth/forms/SignInForm"
 import SignUpForm from "./_auth/forms/SignUpForm"
+import { useRegisterSocketEvents } from "./lib/hooks/useRegisterSocketEvents"
+import Test from "./_root/pages/Test"
+import { useEffect } from "react"
 const App = () => {
+  useRegisterSocketEvents()
+
+  useEffect(() => {
+    console.log("Whole App Remounted")
+
+    return () => {}
+  }, [])
+
   return (
     <Provider store={store}>
       <main className="flex h-screen">
@@ -24,6 +34,7 @@ const App = () => {
             {/* Private Routes */}
             <Route element={<RootLayout />}>
               <Route index element={<Home />} />
+              <Route path="/test" element={<Test />} />
             </Route>
           </Routes>
         </Router>

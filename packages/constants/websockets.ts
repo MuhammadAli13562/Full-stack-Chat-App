@@ -4,6 +4,7 @@ export const WEBSOCKET_TAGS = {
     FetchRoomData: "fetch-room-data",
     CreateNewGroup: "create-new-group",
     AddNewContact: "add-new-contact",
+    ReactionFromClient: "reaction-from-client",
   },
   SERVER: {
     DefaultRooms: "default-rooms",
@@ -11,5 +12,6 @@ export const WEBSOCKET_TAGS = {
     NewRoomFromServer: "new-room-from-server",
     NewContactFromServer: "new-contact-from-server",
     RoomDataFromServer: "room-data",
+    ReactionFromServer: "reaction-from-server",
   },
 };

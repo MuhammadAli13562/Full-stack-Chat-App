@@ -17,7 +17,8 @@
     "types": ["vitest/globals"],
     "baseUrl": ".",
     "paths": {
-      "src/*": ["src/*"]
+      "src/*": ["src/*"],
+      "@backend/*": ["../server/src/utils/*"]
     }
   },
   "references": [{ "path": "./tsconfig.node.json" }]

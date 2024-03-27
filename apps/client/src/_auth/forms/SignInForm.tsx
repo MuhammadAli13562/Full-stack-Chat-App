@@ -18,11 +18,8 @@ import React from "react"
 
 import { toast } from "react-toastify"
 import { useState } from "react"
-import useVerificationOnMount from "src/lib/hooks"
-import {
-  useSignInUserMutation,
-  useVerifyUserLoginMutation,
-} from "src/redux/api/auth"
+import { useSignInUserMutation } from "src/redux/api/auth/auth"
+import { useVerificationOnMount } from "src/lib/hooks"
 
 const SignInForm = () => {
   useVerificationOnMount()
@@ -49,6 +46,7 @@ const SignInForm = () => {
         { position: "top-center" },
       )
       localStorage.setItem("token", resp.token)
+      localStorage.setItem("username", creds.username)
       toast.success("Signed In Successfully")
       navigate("/")
     } catch (error: any) {

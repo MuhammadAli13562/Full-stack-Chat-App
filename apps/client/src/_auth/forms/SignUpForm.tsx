@@ -16,7 +16,7 @@ import { Input } from "../../components/ui/input"
 import { Link, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import React from "react"
-import { useSignUpUserMutation } from "src/redux/api/auth"
+import { useSignUpUserMutation } from "src/redux/api/auth/auth"
 
 const SignUpForm = () => {
   const [SignUp] = useSignUpUserMutation()

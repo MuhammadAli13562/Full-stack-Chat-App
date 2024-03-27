@@ -1,5 +1,5 @@
 import prisma from "../prisma/prismaClient";
-import generateHash from "../utils/generateHash";
+import generateHash from "../utils/functions/generateHash";
 import jwt from "jsonwebtoken";
 
 const secret = process.env.JWT_SECRET || "123";

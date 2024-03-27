@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { HistoricalDataSelect } from "../utils/PrismaSelections";
+import { HistoricalDataSelect } from "../utils/functions/PrismaSelections";
 
 const prisma = new PrismaClient();
 

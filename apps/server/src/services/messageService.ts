@@ -1,5 +1,5 @@
 import prisma from "../prisma/prismaClient";
-import { messageSelect, reactionSelect } from "../utils/PrismaSelections";
+import { messageSelect, reactionSelect } from "../utils/functions/PrismaSelections";
 
 const StoreMessageInDB = async (
   // Returns a Message

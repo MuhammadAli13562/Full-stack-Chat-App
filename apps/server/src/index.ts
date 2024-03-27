@@ -9,7 +9,7 @@ const port = process.env.SERVER_PORT;
 const server = http.createServer(app);
 const cors = require("cors");
 
-app.use(cors({ exposedHeaders: ["token"] }));
+app.use(cors({ exposedHeaders: ["*"] }));
 
 // Api Route Handlers
 app.use("/auth", authController());

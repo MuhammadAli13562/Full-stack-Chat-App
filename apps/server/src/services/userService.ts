@@ -1,18 +1,7 @@
 import prisma from "../prisma/prismaClient";
-import { contactSelect, profileSelect, userSelect } from "../utils/PrismaSelections";
-import generateHash from "../utils/generateHash";
-
-type userInfotype = {
-  name: string;
-  email: string;
-  username: string;
-  password: string;
-};
-
-type profileDatatype = {
-  bio?: string;
-  image?: string;
-};
+import { contactSelect, profileSelect, userSelect } from "../utils/functions/PrismaSelections";
+import generateHash from "../utils/functions/generateHash";
+import { profileDatatype, userInfotype } from "../utils/types";
 
 export const CreateNewUser = async (userInfo: userInfotype) => {
   const { name, username, password, email } = userInfo;

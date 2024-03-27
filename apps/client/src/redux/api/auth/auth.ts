@@ -1,4 +1,4 @@
-import { api } from "."
+import { api } from ".."
 
 type SignInCreds = {
   username: string

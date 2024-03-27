@@ -38,6 +38,12 @@ export const reactionSelect = {
       },
     },
   },
+  message: {
+    select: {
+      roomId: true,
+    },
+  },
+  messageId: true,
 } satisfies Prisma.ReactionSelect;
 
 export type MyReactionPayload = Prisma.ReactionGetPayload<{
@@ -114,17 +120,10 @@ export type MyUserPayload = Prisma.UserGetPayload<{
 //      HISTORICAL DATA SELECTIONS
 //////////////////////////////////////////////////////
 
-const roomHSelect = {
-  ...roomSelect,
-  messages: {
-    take: 5,
-  },
-} satisfies Prisma.RoomSelect;
-
 export const HistoricalDataSelect = {
   ...userSelect,
   rooms: {
-    select: roomHSelect,
+    select: roomSelect,
     orderBy: {
       updatedAt: "desc",
     },
