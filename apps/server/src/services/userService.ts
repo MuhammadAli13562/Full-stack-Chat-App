@@ -1,7 +1,7 @@
 import prisma from "../prisma/prismaClient";
 import { contactSelect, profileSelect, userSelect } from "../utils/functions/PrismaSelections";
 import generateHash from "../utils/functions/generateHash";
-import { profileDatatype, userInfotype } from "../utils/types";
+import { ProfileDatatype, userInfotype } from "../utils/types";
 
 export const CreateNewUser = async (userInfo: userInfotype) => {
   const { name, username, password, email } = userInfo;
@@ -41,7 +41,7 @@ export const isUserRegistered = async (userInfo: userInfotype) => {
   return users.length !== 0;
 };
 
-export const updateProfile = async (userId: number, profileData: profileDatatype) => {
+export const updateProfile = async (userId: number, profileData: ProfileDatatype) => {
   try {
     const newprofile = {
       userId,

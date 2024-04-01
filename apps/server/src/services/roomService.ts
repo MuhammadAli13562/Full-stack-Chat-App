@@ -1,12 +1,7 @@
 import prisma from "../prisma/prismaClient";
 import { roomSelect } from "../utils/functions/PrismaSelections";
 import generateP2PRoomCodes from "../utils/functions/generateP2Pcode";
-
-export type GroupInfoType = {
-  // type of GroupInfo from client
-  contactIds: number[];
-  name: string;
-};
+import { GroupInfoType } from "../utils/types";
 
 export const CreateP2PRoom = async (userId: number, contactId: number) => {
   // Creating New Peer to Peer Rooms   ( ON ADDING THEM AS CONTACT )
@@ -15,6 +10,7 @@ export const CreateP2PRoom = async (userId: number, contactId: number) => {
     where: {
       code,
     },
+    select: roomSelect,
   });
 
   if (prevRoom) return prevRoom;
@@ -63,7 +59,9 @@ export const CreateNewGroupAsAdmin = async (
         }),
       },
     },
-    select: roomSelect,
+    select: {
+      code: true,
+    },
   });
 
   return room;

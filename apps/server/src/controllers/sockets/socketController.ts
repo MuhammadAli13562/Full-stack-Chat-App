@@ -1,17 +1,12 @@
 import { Server } from "socket.io";
 import http from "http";
 import { ReactToMessages, StoreMessageInDB } from "../../services/messageService";
-import {
-  CreateNewGroupAsAdmin,
-  CreateP2PRoom,
-  GroupInfoType,
-  fetchRoomData,
-} from "../../services/roomService";
+import { CreateNewGroupAsAdmin, CreateP2PRoom, fetchRoomData } from "../../services/roomService";
 import prisma from "../../prisma/prismaClient";
 
 import { WEBSOCKET_TAGS } from "packages/constants";
 import { verifyJwtToken, addtoContacts } from "../../services";
-import { MessageInfotype, ReactionInfoType } from "../../utils/types";
+import { MessageInfotype, ReactionInfoType, GroupInfoType } from "../../utils/types";
 
 export const SocketServerInit = (server: http.Server) => {
   const io = new Server(server, { cors: { origin: "*" } });
@@ -84,6 +79,12 @@ export const SocketServerInit = (server: http.Server) => {
           WEBSOCKET_TAGS.SERVER.ReactionFromServer,
           reaction
         );
+    });
+
+    socket.on(WEBSOCKET_TAGS.CLIENT.CreateNewP2PRoom, async (contactId: number) => {
+      const room = await CreateP2PRoom(userId, contactId);
+      const Ids = room.participants.map((participant) => "user_" + participant.id);
+      if (room) io.in(Ids).emit(WEBSOCKET_TAGS.SERVER.NewP2PRoomFromServer, room);
     });
   });
 };

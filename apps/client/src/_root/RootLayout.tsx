@@ -1,8 +1,8 @@
-import { useEffect } from "react"
 import { Outlet } from "react-router-dom"
-import { useGetUserDataQuery } from "src/redux/api/user/getUser"
+import { useVerificationOnMount } from "src/lib/hooks"
 
 const RootLayout = () => {
+  useVerificationOnMount()
   return (
     <div className="w-full md:flex">
       <section className="flex flex-1 h-full ">

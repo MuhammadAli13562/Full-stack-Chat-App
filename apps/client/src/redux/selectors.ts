@@ -19,3 +19,14 @@ export const SelectProfile = createSelector(
   [SelectUserResult],
   userResult => userResult.data?.profile ?? 123,
 )
+
+export const SelectRoomMeta = createSelector(
+  [SelectUserResult],
+  userResult =>
+    userResult.data?.rooms.map(room => ({
+      name: room.name,
+      id: room.id,
+      isp2p: room.isPeer2Peer,
+      participants: room.participants,
+    })) ?? [],
+)

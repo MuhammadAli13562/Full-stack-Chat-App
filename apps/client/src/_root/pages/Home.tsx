@@ -1,11 +1,11 @@
-import { useVerificationOnMount } from "src/lib/hooks"
+import { useGetUserDataQuery } from "src/redux/api/user/getUser"
 import SignOutButton from "../../components/shared/SignOutButton"
-import { useEffect, useLayoutEffect } from "react"
-import { useAppDispatch } from "src/redux/store"
-import { GetUserApi, useGetUserDataQuery } from "src/redux/api/user/getUser"
 
 const Home = () => {
-  useVerificationOnMount()
+  const { data, isLoading, isError, isSuccess } = useGetUserDataQuery(
+    import.meta.env.VITE_FIXED_CACHE_KEY,
+  )
+  if (isSuccess) console.log("user data : ", data)
 
   return (
     <div className="w-full h-screen bg-black">

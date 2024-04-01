@@ -10,7 +10,7 @@ export type userInfotype = {
   password: string;
 };
 
-export type profileDatatype = {
+export type ProfileDatatype = {
   bio?: string;
   image?: string;
 };
@@ -18,4 +18,9 @@ export type profileDatatype = {
 export type MessageInfotype = {
   content: string;
   roomId: number;
+};
+
+export type GroupInfoType = {
+  contactIds: number[];
+  name: string;
 };
