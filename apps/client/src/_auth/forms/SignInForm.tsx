@@ -96,6 +96,7 @@ const SignInForm = () => {
                 <FormControl>
                   <Input
                     type="password"
+                    autoComplete="true"
                     className="form-field"
                     placeholder="*******"
                     {...field}

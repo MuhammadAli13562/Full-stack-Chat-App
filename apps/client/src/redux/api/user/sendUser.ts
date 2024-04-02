@@ -53,13 +53,16 @@ export const SendUserApi = api.injectEndpoints({
         })
       },
     }),
-    addNewContact: builder.mutation<any, number>({
-      queryFn: (contactId: number) => {
+    addNewContact: builder.mutation<any, string>({
+      queryFn: (contact_username: string) => {
+        console.log("Before Socket")
         const socket = getSocket()
+        console.log("Add New Cont")
+
         return new Promise(resolve => {
           socket.emit(
             WEBSOCKET_TAGS.CLIENT.AddNewContact,
-            contactId,
+            contact_username,
             (resp: any) => {
               resolve(resp)
             },
@@ -81,13 +84,13 @@ export const SendUserApi = api.injectEndpoints({
         })
       },
     }),
-    createNewP2PRoom: builder.mutation<any, number>({
-      queryFn: (contactId: number) => {
+    createNewP2PRoom: builder.mutation<any, string>({
+      queryFn: (contact_username: string) => {
         const socket = getSocket()
         return new Promise(resolve => {
           socket.emit(
             WEBSOCKET_TAGS.CLIENT.CreateNewP2PRoom,
-            contactId,
+            contact_username,
             (resp: any) => {
               resolve(resp)
             },
@@ -97,3 +100,12 @@ export const SendUserApi = api.injectEndpoints({
     }),
   }),
 })
+
+export const {
+  useAddNewContactMutation,
+  useAddReactionMutation,
+  useCreateNewGroupMutation,
+  useCreateNewP2PRoomMutation,
+  useSendMessageMutation,
+  useUpdateProfileMutation,
+} = SendUserApi

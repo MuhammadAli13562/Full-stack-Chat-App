@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit"
 import { api } from "./api"
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux"
+import { SelectorSlice } from "./selector"
 
 export const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,
+    [SelectorSlice.reducerPath]: SelectorSlice.reducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(api.middleware),

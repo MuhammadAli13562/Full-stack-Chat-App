@@ -34,6 +34,7 @@ export const GetUserApi = api.injectEndpoints({
           await cacheDataLoaded
 
           const socket = getSocket()
+          console.log("Registering Socket Events")
 
           socket.on(
             WEBSOCKET_TAGS.SERVER.RoomDataFromServer,
@@ -49,9 +50,18 @@ export const GetUserApi = api.injectEndpoints({
           socket.on(
             WEBSOCKET_TAGS.SERVER.MessageFromServer,
             (msg: MyMessagePayload) => {
+              console.log("Message from server : ", msg)
+
               updateCachedData((draft: MyHistoricalDataPayload) => {
                 draft.rooms = draft.rooms.map(room => {
-                  if (room.id === msg.roomId) room.messages.push(msg)
+                  if (room.id === msg.roomId) {
+                    room.messages.push(msg)
+                    room.messages.sort(
+                      (a, b) =>
+                        new Date(b.createdAt).getTime() -
+                        new Date(a.createdAt).getTime(),
+                    )
+                  }
                   return room
                 })
               })

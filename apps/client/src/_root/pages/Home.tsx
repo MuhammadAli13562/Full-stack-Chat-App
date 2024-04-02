@@ -1,18 +1,16 @@
-import { useGetUserDataQuery } from "src/redux/api/user/getUser"
-import SignOutButton from "../../components/shared/SignOutButton"
+import useGetUserDataFixedCache from "src/redux/hooks/useGetUserDataFixedCache"
+import LeftBar from "src/components/shared/LeftBar"
+import ChatBoxContainer from "src/components/shared/ChatBox.Container"
 
 const Home = () => {
-  const { data, isLoading, isError, isSuccess } = useGetUserDataQuery(
-    import.meta.env.VITE_FIXED_CACHE_KEY,
-  )
-  if (isSuccess) console.log("user data : ", data)
+  const { data, isLoading, isError, isSuccess } = useGetUserDataFixedCache()
+
+  if (isSuccess) console.log("HOME DATA : ", data)
 
   return (
-    <div className="w-full h-screen bg-black">
-      <div className="w-full flex-end p-6">
-        <SignOutButton />
-      </div>
-      <div className="flex-center text-white text-3xl">Home</div>
+    <div className="flex text-white text-3xl w-full p-6 justify-center">
+      <LeftBar />
+      <ChatBoxContainer />
     </div>
   )
 }

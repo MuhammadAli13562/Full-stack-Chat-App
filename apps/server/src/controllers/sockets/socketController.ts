@@ -46,8 +46,8 @@ export const SocketServerInit = (server: http.Server) => {
 
     socket.on(WEBSOCKET_TAGS.CLIENT.CreateNewGroup, async (GroupInfo: GroupInfoType) => {
       const room = await CreateNewGroupAsAdmin(userId, GroupInfo);
-      const Ids = GroupInfo.contactIds.map((contactId) => "user" + contactId);
-      Ids.push("user" + userId);
+      const Ids = GroupInfo.contactIds.map((contactId) => "user_" + contactId);
+      Ids.push("user_" + userId);
 
       if (room) io.in(Ids).emit(WEBSOCKET_TAGS.SERVER.NewRoomFromServer, room);
     });
@@ -59,9 +59,9 @@ export const SocketServerInit = (server: http.Server) => {
         const contact = await addtoContacts(userId, contact_username);
         const room = await CreateP2PRoom(userId, contact_username);
         if (contact)
-          io.in("user" + userId).emit(WEBSOCKET_TAGS.SERVER.NewContactFromServer, contact);
+          io.in("user_" + userId).emit(WEBSOCKET_TAGS.SERVER.NewContactFromServer, contact);
         if (room)
-          io.in(["user" + userId, "user" + contact?.id]).emit(
+          io.in(["user_" + userId, "user_" + contact?.id]).emit(
             WEBSOCKET_TAGS.SERVER.NewRoomFromServer,
             room
           );
@@ -78,11 +78,20 @@ export const SocketServerInit = (server: http.Server) => {
       if (room) io.in("user" + userId).emit(WEBSOCKET_TAGS.SERVER.RoomDataFromServer, room);
     });
 
-    socket.on(WEBSOCKET_TAGS.CLIENT.MessageFromClient, async (MessageInfo: MessageInfotype) => {
-      const { roomId, content } = MessageInfo;
-      const msg = await StoreMessageInDB(userId, roomId, content);
-      if (msg) io.in("room" + roomId).emit(WEBSOCKET_TAGS.SERVER.MessageFromServer, msg);
-    });
+    socket.on(
+      WEBSOCKET_TAGS.CLIENT.MessageFromClient,
+      async (MessageInfo: MessageInfotype, callback) => {
+        try {
+          const { roomId, content } = MessageInfo;
+          const msg = await StoreMessageInDB(userId, roomId, content);
+          if (msg) io.in("room_" + roomId).emit(WEBSOCKET_TAGS.SERVER.MessageFromServer, msg);
+
+          callback({ status: "Successful Message Delivered" });
+        } catch (error) {
+          callback({ status: "Error" });
+        }
+      }
+    );
 
     socket.on(WEBSOCKET_TAGS.CLIENT.ReactionFromClient, async (ReactionInfo: ReactionInfoType) => {
       const { type, messageId } = ReactionInfo;
