@@ -20,6 +20,9 @@ export const SocketServerInit = (server: http.Server) => {
       socket.disconnect();
       return;
     }
+
+    console.log("Socket Connected Server here");
+
     const loadHistoricalData = async () => {
       const rooms = await prisma.user.findUnique({
         where: {
@@ -49,15 +52,25 @@ export const SocketServerInit = (server: http.Server) => {
       if (room) io.in(Ids).emit(WEBSOCKET_TAGS.SERVER.NewRoomFromServer, room);
     });
 
-    socket.on(WEBSOCKET_TAGS.CLIENT.AddNewContact, async (contactId: number) => {
-      const contact = await addtoContacts(userId, contactId);
-      const room = await CreateP2PRoom(userId, contactId);
-      if (contact) io.in("user" + userId).emit(WEBSOCKET_TAGS.SERVER.NewContactFromServer, contact);
-      if (room)
-        io.in(["user" + userId, "user" + contactId]).emit(
-          WEBSOCKET_TAGS.SERVER.NewRoomFromServer,
-          room
-        );
+    socket.on(WEBSOCKET_TAGS.CLIENT.AddNewContact, async (contact_username: string, callback) => {
+      try {
+        console.log("Requested New Contact Addition");
+
+        const contact = await addtoContacts(userId, contact_username);
+        const room = await CreateP2PRoom(userId, contact_username);
+        if (contact)
+          io.in("user" + userId).emit(WEBSOCKET_TAGS.SERVER.NewContactFromServer, contact);
+        if (room)
+          io.in(["user" + userId, "user" + contact?.id]).emit(
+            WEBSOCKET_TAGS.SERVER.NewRoomFromServer,
+            room
+          );
+        if (contact && room) {
+          callback({ status: "Contact & Room Created" });
+        }
+      } catch (error: any) {
+        callback({ status: "Error Creating New Contact : " + error.message });
+      }
     });
 
     socket.on(WEBSOCKET_TAGS.CLIENT.FetchRoomData, async (roomId: number) => {
@@ -81,8 +94,9 @@ export const SocketServerInit = (server: http.Server) => {
         );
     });
 
-    socket.on(WEBSOCKET_TAGS.CLIENT.CreateNewP2PRoom, async (contactId: number) => {
-      const room = await CreateP2PRoom(userId, contactId);
+    socket.on(WEBSOCKET_TAGS.CLIENT.CreateNewP2PRoom, async (contact_username: string) => {
+      const room = await CreateP2PRoom(userId, contact_username);
+      if (!room) return;
       const Ids = room.participants.map((participant) => "user_" + participant.id);
       if (room) io.in(Ids).emit(WEBSOCKET_TAGS.SERVER.NewP2PRoomFromServer, room);
     });

@@ -70,6 +70,8 @@ export const roomSelect = {
   name: true,
   code: true,
   updatedAt: true,
+  image: true,
+  bio: true,
   messages: {
     select: messageSelect,
     orderBy: {

@@ -62,7 +62,7 @@ export const updateProfile = async (userId: number, profileData: ProfileDatatype
   }
 };
 
-export const addtoContacts = async (userId: number, contactId: number) => {
+export const addtoContacts = async (userId: number, contact_username: string) => {
   try {
     const contact = await prisma.user.update({
       where: {
@@ -71,13 +71,15 @@ export const addtoContacts = async (userId: number, contactId: number) => {
       data: {
         contacts: {
           connect: {
-            id: contactId,
+            username: contact_username,
           },
         },
       },
       select: contactSelect,
     });
     if (!contact) throw Error("Cant update contacts");
+    console.log("New Contact Created");
+
     return contact;
   } catch (error: any) {
     console.log("Error : ", error.message);

@@ -58,6 +58,8 @@ model User {
 model Room {
 
   id Int @id @default(autoincrement())
+  bio String?
+  image String?
   code String @unique @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

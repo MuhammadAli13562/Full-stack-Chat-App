@@ -3,7 +3,19 @@ import { roomSelect } from "../utils/functions/PrismaSelections";
 import generateP2PRoomCodes from "../utils/functions/generateP2Pcode";
 import { GroupInfoType } from "../utils/types";
 
-export const CreateP2PRoom = async (userId: number, contactId: number) => {
+export const CreateP2PRoom = async (userId: number, contact_username: string) => {
+  const contact = await prisma.user.findUnique({
+    where: {
+      username: contact_username,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  const contactId = contact?.id;
+
+  if (!contactId) return null;
   // Creating New Peer to Peer Rooms   ( ON ADDING THEM AS CONTACT )
   const code = await generateP2PRoomCodes(userId, contactId);
   const prevRoom = await prisma.room.findUnique({
