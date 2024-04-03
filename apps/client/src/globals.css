@@ -82,6 +82,20 @@
   }
 }
 
+/* For Webkit browsers */
+::-webkit-scrollbar {
+  width: 6px; /* width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #2b2b2b; /* color of the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6969696c; /* color of the scrollbar thumb */
+  border-radius: 10px;
+}
+
 /* Tailwind Styles */
 
 .app {
@@ -199,4 +213,14 @@
 
 .border-test {
   @apply border-2 border-solid border-white;
+}
+
+/* Message Components  */
+
+.message-card {
+  @apply px-2 min-w-[50px] max-w-[700px] border-2 rounded-xl border-solid border-dark-4;
+}
+
+.window-border {
+  @apply border-l-[1px] border-gray-700;
 }

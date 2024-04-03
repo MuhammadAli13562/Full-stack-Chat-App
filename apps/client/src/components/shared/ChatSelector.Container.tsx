@@ -11,14 +11,16 @@ const ChatSelectorContainer = () => {
   const dispatch = useAppDispatch()
 
   return (
-    <div className="mt-4">
+    <div className="">
       {RoomMetaData.map((room, index) => {
         return (
           <div
             key={index}
-            className={
-              room.id === selected_Room ? "bg-gray-700" : "hover:bg-gray-900"
-            }
+            className={`select-none hover:cursor-pointer  ${
+              room.id === selected_Room
+                ? "bg-gray-700 text-white "
+                : "hover:bg-gray-800 text-gray-500 "
+            }`}
             onClick={() => dispatch(SelectorSlice.actions.selection(room.id))}
           >
             <ChatSelector RoomMetaInfo={room} />

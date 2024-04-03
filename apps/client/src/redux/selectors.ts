@@ -35,7 +35,10 @@ export const SelectRoomMeta = createSelector(
           room.messages.length > 0
             ? {
                 createdAt: room.messages[0].createdAt,
-                author: room.messages[0].author.name,
+                author: {
+                  username: room.messages[0].author.username,
+                  name: room.messages[0].author.name,
+                },
                 content: room.messages[0].content,
               }
             : null,

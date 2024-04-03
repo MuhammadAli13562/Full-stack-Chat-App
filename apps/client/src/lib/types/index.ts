@@ -1,7 +1,4 @@
-import {
-  MyContactPayload,
-  MyUserPayload,
-} from "@backend/functions/PrismaSelections"
+import { MyContactPayload } from "@backend/functions/PrismaSelections"
 
 export type RoomMetaType = {
   name: string
@@ -10,5 +7,9 @@ export type RoomMetaType = {
   participants: MyContactPayload[]
   image: string | null
   bio: string | null
-  lastMessage: { author: string; content: string } | null
+  lastMessage: {
+    author: { username: string; name: string }
+    content: string
+    createdAt: Date
+  } | null
 }
