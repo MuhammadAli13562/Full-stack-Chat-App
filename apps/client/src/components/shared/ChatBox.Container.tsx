@@ -15,9 +15,9 @@ const ChatBoxContainer = () => {
   if (isSuccess) console.log("Selected Room : ", Room?.messages)
 
   return (
-    <div className="window-border w-[1200px] bg-dark-3 relative flex flex-col ">
+    <div className="window-border flex-1 bg-dark-3 relative flex flex-col ">
       {Room && <RoomTopBar Room={Room} />}
-      <div className=" flex flex-1 flex-col justify-end h-[800px]">
+      <div className=" flex flex-1 flex-col justify-end h-[70vh] 2xl:h-[80vh]">
         {Room && <ChatBox Room={Room} />}
       </div>
       {Room && <MessageEditor roomId={Room?.id} />}

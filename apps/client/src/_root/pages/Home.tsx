@@ -8,7 +8,7 @@ const Home = () => {
   if (isSuccess) console.log("HOME DATA : ", data)
 
   return (
-    <div className="flex text-white text-3xl w-full p-6 justify-center">
+    <div className="flex text-white text-3xl w-full py-0 2xl:py-6 2xl:px-[5vw] justify-center ">
       <LeftBar />
       <ChatBoxContainer />
     </div>
