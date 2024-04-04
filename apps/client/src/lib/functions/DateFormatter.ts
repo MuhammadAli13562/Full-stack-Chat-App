@@ -6,9 +6,12 @@ function formatDate(dateString: Date) {
 
   if (date.toDateString() === today.toDateString()) {
     // If the date is today, return the time
-    const hours = date.getHours()
+    let hours = date.getHours()
     const minutes = date.getMinutes()
-    const formattedTime = `${hours}:${minutes < 10 ? "0" + minutes : minutes}`
+    const ampm = hours >= 12 ? "pm" : "am"
+    hours = hours % 12
+    hours = hours ? hours : 12
+    const formattedTime = `${hours}:${minutes < 10 ? "0" + minutes : minutes} ${ampm}`
     return formattedTime
   } else if (date.toDateString() === yesterday.toDateString()) {
     return "Yesterday"
@@ -58,9 +61,12 @@ function formatDateByDay(dateString: Date) {
 
 function getTimefromDate(dateString: Date) {
   const date = new Date(dateString)
-  const hours = date.getHours()
+  let hours = date.getHours()
   const minutes = date.getMinutes()
-  const formattedTime = `${hours}:${minutes < 10 ? "0" + minutes : minutes}`
+  const ampm = hours >= 12 ? "pm" : "am"
+  hours = hours % 12
+  hours = hours ? hours : 12
+  const formattedTime = `${hours}:${minutes < 10 ? "0" + minutes : minutes} ${ampm}`
   return formattedTime
 }
 

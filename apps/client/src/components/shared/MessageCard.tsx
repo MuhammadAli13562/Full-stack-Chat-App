@@ -19,9 +19,13 @@ const MessageCard = ({
       <div
         className={`message-card ${isSelf(msg.author.username) ? "bg-blue-900" : "bg-gray-800"}`}
       >
-        <div className="flex-between gap-4 w-full ">
-          <span className="self-start text-[14px]/[30px]">{msg.content}</span>
-          <span className="self-end text-sm text-gray-400">
+        <div className="col-center  w-full pb-[0.2rem]">
+          <div className="flex-between w-full ">
+            <span className="self-start text-[14px]/[30px]">{msg.content}</span>
+            <span className="min-w-[60px]"></span>
+          </div>
+
+          <span className="self-end -mt-2 text-[13px]/[13px] text-gray-400 min-w-[30px]">
             {getTimefromDate(msg.createdAt)}
           </span>
         </div>
