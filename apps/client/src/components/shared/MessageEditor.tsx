@@ -44,8 +44,8 @@ const MessageEditor = ({ roomId }: { roomId: number }) => {
         {/** Send Button */}
         <div>
           <button
-            className="p-2"
-            disabled={isSendingMessage}
+            className="p-2 disabled:opacity-30"
+            disabled={isSendingMessage || msg.length === 0}
             onClick={handleSendMessage}
           >
             <img src={sendLogo} width={30} />

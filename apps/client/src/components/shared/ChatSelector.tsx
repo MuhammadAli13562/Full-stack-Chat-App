@@ -1,7 +1,7 @@
 import { RoomMetaType } from "src/lib/types"
 import ProfilePlaceholder from "../svg/ProfilePlaceholder"
 import GroupPlaceholder from "../svg/GroupPlaceholder"
-import formatDate from "src/lib/functions/fromatDate"
+import { formatDate } from "src/lib/functions/DateFormatter"
 
 const ChatSelector = ({ RoomMetaInfo }: { RoomMetaInfo: RoomMetaType }) => {
   let lastMessage = RoomMetaInfo.lastMessage
@@ -36,7 +36,7 @@ const ChatSelector = ({ RoomMetaInfo }: { RoomMetaInfo: RoomMetaType }) => {
             <div className="text-sm ">{lastMessageDate}</div>
           </div>
           {/*Last Message */}
-          <span className="text-[16px] -mt-2 font-light">{lastMessage}</span>
+          <span className="text-[15px] -mt-2 font-light">{lastMessage}</span>
         </div>
       </div>
     </div>

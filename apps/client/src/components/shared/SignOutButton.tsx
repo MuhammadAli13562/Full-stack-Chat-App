@@ -10,7 +10,7 @@ const SignOutButton = () => {
 
   return (
     <Button
-      className="primary-btn"
+      className="bg-black text-gray-500"
       onClick={() => {
         localStorage.removeItem("token")
         localStorage.removeItem("username")

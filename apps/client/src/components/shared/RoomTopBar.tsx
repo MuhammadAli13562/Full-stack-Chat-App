@@ -25,12 +25,12 @@ const RoomTopBar = ({ Room }: { Room: MyRoomPayload }) => {
       <div className="flex-between">
         <div className="flex items-center gap-">
           {/*Profile Picture*/}
-          <div className=" scale-75 opacity-75">
+          <div className=" scale-[0.7] opacity-75">
             {Room.isPeer2Peer ? <ProfilePlaceholder /> : <GroupPlaceholder />}
           </div>
           <div className="flex flex-col items-start">
             {/*Room Name*/}
-            <div className="text-[16px] text-gray-200">
+            <div className="text-[16px] text-gray-200 font-bold">
               {Room.isPeer2Peer
                 ? Room.participants.find(
                     part => part.username != localStorage.getItem("username"),
