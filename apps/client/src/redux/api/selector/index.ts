@@ -45,7 +45,5 @@ export const SelectRoomMeta = createSelector([SelectAllRooms], Rooms => {
 })
 
 export const SelectUnReadData = createSelector([SelectRoomById], room => {
-  console.log("Unread Seelctor Triggered : ", room)
-
   return room ? getUnreadData(room) : null
 })

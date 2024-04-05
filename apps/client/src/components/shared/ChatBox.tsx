@@ -16,6 +16,29 @@ const ChatBox = ({ Room }: { Room: MyRoomPayload }) => {
   const RoomUnreadInfo = useTypedSelector(state =>
     SelectUnReadData(state, Selected_Room),
   )
+
+  console.log("current unread info : ", RoomUnreadInfo)
+
+  const callback = () => {
+    if (chatboxRef.current) {
+      const scrollPosition =
+        chatboxRef.current.scrollTop + chatboxRef.current.clientHeight
+      const scrollHeight = chatboxRef.current.scrollHeight
+
+      if (scrollPosition === scrollHeight) {
+        if (RoomUnreadInfo && RoomUnreadInfo.count > 0) {
+          const payloadToBeSent = {
+            messageIds: RoomUnreadInfo.messageIds,
+            roomId: Selected_Room,
+          }
+          console.log("payload to be sent : ", payloadToBeSent)
+
+          readMessagesInChat(payloadToBeSent)
+        }
+      }
+    }
+  }
+
   useEffect(() => {
     if (chatboxRef.current)
       chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight
@@ -28,24 +51,7 @@ const ChatBox = ({ Room }: { Room: MyRoomPayload }) => {
     return () => {
       chatboxRef.current?.removeEventListener("scroll", callback)
     }
-  }, [chatboxRef])
-
-  const callback = () => {
-    if (chatboxRef.current) {
-      const scrollPosition =
-        chatboxRef.current.scrollTop + chatboxRef.current.clientHeight
-      const scrollHeight = chatboxRef.current.scrollHeight
-
-      if (scrollPosition === scrollHeight) {
-        if (RoomUnreadInfo && RoomUnreadInfo.count > 0) {
-          readMessagesInChat({
-            messageIds: RoomUnreadInfo.messageIds,
-            roomId: Selected_Room,
-          })
-        }
-      }
-    }
-  }
+  }, [chatboxRef, callback])
 
   return (
     <div

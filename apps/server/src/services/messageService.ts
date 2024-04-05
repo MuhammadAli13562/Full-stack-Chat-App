@@ -69,7 +69,6 @@ const ReadMessageInDB = async (userId: number, messageIds: number[], roomId: num
           },
           select: messageSelect,
         });
-        console.log("update msgs in db : ", updated_msg);
         return updated_msg;
       } catch (error) {
         console.log("Error : Updating Message : ", error);

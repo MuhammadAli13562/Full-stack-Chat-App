@@ -12,7 +12,7 @@ const ChatBoxContainer = () => {
   const Room = useTypedSelector(state => SelectRoomById(state, selected_Room))
 
   if (isLoading) return <div>Loading ...</div>
-  if (isSuccess) console.log("Selected Room : ", Room?.messages)
+  // if (isSuccess) console.log("Selected Room : ", Room?.messages)
 
   return (
     <div className="window-border flex-1 bg-dark-3 relative flex flex-col ">
