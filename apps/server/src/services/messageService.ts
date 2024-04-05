@@ -24,7 +24,7 @@ const StoreMessageInDB = async (
   }
 };
 
-const ReactToMessages = async (
+const ReactToMessagesInDB = async (
   // Returns a Reaction to Message
   userId: number,
   messageId: number,
@@ -51,4 +51,38 @@ const ReactToMessages = async (
   return Reaction;
 };
 
-export { StoreMessageInDB, ReactToMessages };
+const ReadMessageInDB = async (userId: number, messageIds: number[], roomId: number) => {
+  try {
+    const msgs_Promises = messageIds.map(async (id) => {
+      try {
+        const updated_msg = await prisma.message.update({
+          where: {
+            roomId,
+            id,
+          },
+          data: {
+            readBy: {
+              connect: {
+                id: userId,
+              },
+            },
+          },
+          select: messageSelect,
+        });
+        console.log("update msgs in db : ", updated_msg);
+        return updated_msg;
+      } catch (error) {
+        console.log("Error : Updating Message : ", error);
+        return null;
+      }
+    });
+
+    const msgs = await Promise.all(msgs_Promises);
+    return msgs;
+  } catch (error) {
+    console.log("ReadMessageError");
+    return null;
+  }
+};
+
+export { StoreMessageInDB, ReactToMessagesInDB, ReadMessageInDB };

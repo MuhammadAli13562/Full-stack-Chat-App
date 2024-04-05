@@ -1,12 +1,21 @@
 import { Server } from "socket.io";
 import http from "http";
-import { ReactToMessages, StoreMessageInDB } from "../../services/messageService";
+import {
+  ReactToMessagesInDB,
+  ReadMessageInDB,
+  StoreMessageInDB,
+} from "../../services/messageService";
 import { CreateNewGroupAsAdmin, CreateP2PRoom, fetchRoomData } from "../../services/roomService";
 import prisma from "../../prisma/prismaClient";
 
 import { WEBSOCKET_TAGS } from "packages/constants";
 import { verifyJwtToken, addtoContacts } from "../../services";
-import { MessageInfotype, ReactionInfoType, GroupInfoType } from "../../utils/types";
+import {
+  MessageInfotype,
+  ReactionInfoType,
+  GroupInfoType,
+  ReadMessageType,
+} from "../../utils/types";
 
 export const SocketServerInit = (server: http.Server) => {
   const io = new Server(server, { cors: { origin: "*" } });
@@ -53,24 +62,22 @@ export const SocketServerInit = (server: http.Server) => {
     });
 
     socket.on(WEBSOCKET_TAGS.CLIENT.AddNewContact, async (contact_username: string, callback) => {
-      try {
-        console.log("Requested New Contact Addition");
+      console.log("Requested New Contact Addition");
 
-        const contact = await addtoContacts(userId, contact_username);
-        const room = await CreateP2PRoom(userId, contact_username);
-        if (contact)
-          io.in("user_" + userId).emit(WEBSOCKET_TAGS.SERVER.NewContactFromServer, contact);
-        if (room)
-          io.in(["user_" + userId, "user_" + contact?.id]).emit(
-            WEBSOCKET_TAGS.SERVER.NewRoomFromServer,
-            room
-          );
-        if (contact && room) {
-          callback({ status: "Contact & Room Created" });
-        }
-      } catch (error: any) {
-        callback({ status: "Error Creating New Contact : " + error.message });
+      const contact = await addtoContacts(userId, contact_username);
+      const room = await CreateP2PRoom(userId, contact_username);
+      if (contact)
+        io.in("user_" + userId).emit(WEBSOCKET_TAGS.SERVER.NewContactFromServer, contact);
+      if (room)
+        io.in(["user_" + userId, "user_" + contact?.id]).emit(
+          WEBSOCKET_TAGS.SERVER.NewRoomFromServer,
+          room
+        );
+      if (contact && room) {
+        callback({ status: "Contact & Room Created" });
+        return;
       }
+      callback({ status: "Error Creating New Contact" });
     });
 
     socket.on(WEBSOCKET_TAGS.CLIENT.FetchRoomData, async (roomId: number) => {
@@ -84,7 +91,7 @@ export const SocketServerInit = (server: http.Server) => {
         try {
           const { roomId, content } = MessageInfo;
           const msg = await StoreMessageInDB(userId, roomId, content);
-          if (msg) io.in("room_" + roomId).emit(WEBSOCKET_TAGS.SERVER.MessageFromServer, msg);
+          if (msg) io.in("room_" + roomId).emit(WEBSOCKET_TAGS.SERVER.MessageFromServer, [msg]);
 
           callback({ status: "Successful Message Delivered" });
         } catch (error) {
@@ -95,9 +102,9 @@ export const SocketServerInit = (server: http.Server) => {
 
     socket.on(WEBSOCKET_TAGS.CLIENT.ReactionFromClient, async (ReactionInfo: ReactionInfoType) => {
       const { type, messageId } = ReactionInfo;
-      const reaction = await ReactToMessages(userId, messageId, type);
+      const reaction = await ReactToMessagesInDB(userId, messageId, type);
       if (reaction)
-        io.in("room" + reaction.message.roomId).emit(
+        io.in("room_" + reaction.message.roomId).emit(
           WEBSOCKET_TAGS.SERVER.ReactionFromServer,
           reaction
         );
@@ -109,5 +116,20 @@ export const SocketServerInit = (server: http.Server) => {
       const Ids = room.participants.map((participant) => "user_" + participant.id);
       if (room) io.in(Ids).emit(WEBSOCKET_TAGS.SERVER.NewP2PRoomFromServer, room);
     });
+
+    socket.on(
+      WEBSOCKET_TAGS.CLIENT.ReadMessageFromClient,
+      async (ReadMessageInfo: ReadMessageType, callback) => {
+        const { roomId, messageIds } = ReadMessageInfo;
+        const new_msgs = await ReadMessageInDB(userId, messageIds, roomId);
+
+        if (new_msgs && new_msgs?.length > 0) {
+          io.in("room_" + roomId).emit(WEBSOCKET_TAGS.SERVER.MessageFromServer, new_msgs);
+          callback({ status: "Message Read Update" });
+          return;
+        }
+        callback({ status: "Error Reading Message" });
+      }
+    );
   });
 };

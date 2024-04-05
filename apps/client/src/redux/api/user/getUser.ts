@@ -49,18 +49,25 @@ export const GetUserApi = api.injectEndpoints({
 
           socket.on(
             WEBSOCKET_TAGS.SERVER.MessageFromServer,
-            (msg: MyMessagePayload) => {
-              console.log("Message from server : ", msg)
+            (new_msgs: MyMessagePayload[]) => {
+              console.log("Message from server : ", new_msgs)
+              new_msgs.sort((a, b) => {
+                return (
+                  new Date(a.createdAt).getTime() -
+                  new Date(b.createdAt).getTime()
+                )
+              })
 
               updateCachedData((draft: MyHistoricalDataPayload) => {
                 draft.rooms = draft.rooms.map(room => {
-                  if (room.id === msg.roomId) {
-                    room.messages.push(msg)
-                    room.messages.sort(
-                      (a, b) =>
-                        new Date(b.createdAt).getTime() -
-                        new Date(a.createdAt).getTime(),
-                    )
+                  if (room.id === new_msgs[0].roomId) {
+                    new_msgs.forEach(msg => {
+                      const oldMsg = room.messages.find(
+                        Oldmsg => Oldmsg.id === msg.id,
+                      )
+                      if (oldMsg) Object.assign(oldMsg, msg)
+                      else room.messages.push(msg)
+                    })
                   }
                   return room
                 })

@@ -7,6 +7,7 @@ export const WEBSOCKET_TAGS = {
     AddNewContact: "add-new-contact",
     ReactionFromClient: "reaction-from-client",
     UpdateProfileFromClient: "update-profile-client",
+    ReadMessageFromClient: "read-msg-from-client",
   },
   SERVER: {
     DefaultRooms: "default-rooms",
@@ -17,5 +18,6 @@ export const WEBSOCKET_TAGS = {
     RoomDataFromServer: "room-data",
     ReactionFromServer: "reaction-from-server",
     UpdateProfileFromServer: "update-profile-server",
+    ReadMessageFromServer: "read-msg-from-server",
   },
 };

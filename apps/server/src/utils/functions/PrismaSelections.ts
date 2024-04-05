@@ -59,6 +59,13 @@ export const messageSelect = {
   reactions: {
     select: reactionSelect,
   },
+  readBy: {
+    select: {
+      id: true,
+      name: true,
+      username: true,
+    },
+  },
 } satisfies Prisma.MessageSelect;
 
 export type MyMessagePayload = Prisma.MessageGetPayload<{
@@ -75,7 +82,7 @@ export const roomSelect = {
   messages: {
     select: messageSelect,
     orderBy: {
-      createdAt: "desc",
+      createdAt: "asc",
     },
   },
   participants: {

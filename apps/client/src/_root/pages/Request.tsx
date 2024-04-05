@@ -1,11 +1,8 @@
 import { useState } from "react"
 import { Button } from "src/components/ui/button"
-import {
-  useAddNewContactMutation,
-  useSendMessageMutation,
-} from "src/redux/api/user/sendUser"
+import { useSendMessageMutation } from "src/redux/api/user/sendUser"
 import useGetUserDataFixedCache from "src/redux/hooks/useGetUserDataFixedCache"
-import { SelectRoomMeta } from "src/redux/selectors"
+import { SelectRoomMeta } from "src/redux/api/selector"
 import { useTypedSelector } from "src/redux/store"
 
 const Request = () => {

@@ -1,5 +1,5 @@
 import useGetUserDataFixedCache from "src/redux/hooks/useGetUserDataFixedCache"
-import { SelectRoomMeta } from "src/redux/selectors"
+import { SelectRoomMeta } from "src/redux/api/selector"
 import { useAppDispatch, useTypedSelector } from "src/redux/store"
 import ChatSelector from "./ChatSelector"
 import { SelectorSlice, selectedRoom } from "src/redux/selector"
@@ -9,6 +9,8 @@ const ChatSelectorContainer = () => {
   const RoomMetaData = useTypedSelector(SelectRoomMeta)
   const selected_Room = useTypedSelector(selectedRoom)
   const dispatch = useAppDispatch()
+
+  console.log("Room Meta Data : ", RoomMetaData)
 
   return (
     <div className="">

@@ -6,6 +6,7 @@ import {
   ReactionInfoType,
   ProfileDatatype,
   GroupInfoType,
+  ReadMessageType,
 } from "@backend/types/index"
 
 export const SendUserApi = api.injectEndpoints({
@@ -98,6 +99,20 @@ export const SendUserApi = api.injectEndpoints({
         })
       },
     }),
+    readMessage: builder.mutation<any, ReadMessageType>({
+      queryFn: (ReadMessageInfo: ReadMessageType) => {
+        const socket = getSocket()
+        return new Promise(resolve => {
+          socket.emit(
+            WEBSOCKET_TAGS.CLIENT.ReadMessageFromClient,
+            ReadMessageInfo,
+            (resp: any) => {
+              resolve(resp)
+            },
+          )
+        })
+      },
+    }),
   }),
 })
 
@@ -108,4 +123,5 @@ export const {
   useCreateNewP2PRoomMutation,
   useSendMessageMutation,
   useUpdateProfileMutation,
+  useReadMessageMutation,
 } = SendUserApi

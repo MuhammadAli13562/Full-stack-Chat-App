@@ -24,3 +24,8 @@ export type GroupInfoType = {
   contactIds: number[];
   name: string;
 };
+
+export type ReadMessageType = {
+  roomId: number;
+  messageIds: number[];
+};
