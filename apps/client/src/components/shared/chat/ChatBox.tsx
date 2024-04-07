@@ -20,38 +20,28 @@ const ChatBox = ({ Room }: { Room: MyRoomPayload }) => {
   console.log("current unread info : ", RoomUnreadInfo)
 
   const callback = () => {
-    if (chatboxRef.current) {
-      const scrollPosition =
-        chatboxRef.current.scrollTop + chatboxRef.current.clientHeight
-      const scrollHeight = chatboxRef.current.scrollHeight
-
-      if (scrollPosition === scrollHeight) {
-        if (RoomUnreadInfo && RoomUnreadInfo.count > 0) {
-          const payloadToBeSent = {
-            messageIds: RoomUnreadInfo.messageIds,
-            roomId: Selected_Room,
-          }
-          console.log("payload to be sent : ", payloadToBeSent)
-
-          readMessagesInChat(payloadToBeSent)
-        }
+    if (RoomUnreadInfo && RoomUnreadInfo.count > 0) {
+      const payloadToBeSent = {
+        messageIds: RoomUnreadInfo.messageIds,
+        roomId: Selected_Room,
       }
+      console.log("payload to be sent : ", payloadToBeSent)
+
+      readMessagesInChat(payloadToBeSent)
     }
   }
 
   useEffect(() => {
-    if (chatboxRef.current)
+    if (chatboxRef.current) {
       chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight
-  }, [Room])
+    }
 
-  useEffect(() => {
-    if (chatboxRef.current)
-      chatboxRef.current.addEventListener("scroll", callback)
+    window.addEventListener("focus", callback)
 
     return () => {
-      chatboxRef.current?.removeEventListener("scroll", callback)
+      window.removeEventListener("focus", callback)
     }
-  }, [chatboxRef, callback])
+  }, [Room, callback])
 
   return (
     <div

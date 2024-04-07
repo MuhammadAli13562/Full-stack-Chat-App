@@ -7,20 +7,18 @@ import { useTypedSelector } from "src/redux/store"
 import RoomTopBar from "./RoomTopBar"
 
 const ChatBoxContainer = () => {
-  const { isLoading, isSuccess } = useGetUserDataFixedCache()
+  const {} = useGetUserDataFixedCache()
   const selected_Room = useTypedSelector(selectedRoom)
   const Room = useTypedSelector(state => SelectRoomById(state, selected_Room))
 
-  if (isLoading) return <div>Loading ...</div>
-  // if (isSuccess) console.log("Selected Room : ", Room?.messages)
-
+  if (!Room) return <></>
   return (
     <div className="window-border flex-1 bg-dark-3 relative flex flex-col ">
-      {Room && <RoomTopBar Room={Room} />}
+      <RoomTopBar Room={Room} />
       <div className=" flex flex-1 flex-col justify-end h-[70vh] 2xl:h-[80vh]">
-        {Room && <ChatBox Room={Room} />}
+        <ChatBox Room={Room} />
       </div>
-      {Room && <MessageEditor roomId={Room?.id} />}
+      <MessageEditor roomId={Room?.id} />
     </div>
   )
 }

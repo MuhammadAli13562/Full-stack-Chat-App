@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import { Button } from "../ui/button"
+import { Button } from "../../ui/button"
 import { toast } from "react-toastify"
 import { store } from "src/redux/store"
 import { api } from "src/redux/api"

@@ -1,8 +1,8 @@
 import { MyRoomPayload } from "@backend/functions/PrismaSelections"
 import searchLogo from "public/search.png"
 import optionLogo from "public/options.png"
-import ProfilePlaceholder from "../svg/ProfilePlaceholder"
-import GroupPlaceholder from "../svg/GroupPlaceholder"
+import ProfilePlaceholder from "../../svg/ProfilePlaceholder"
+import GroupPlaceholder from "../../svg/GroupPlaceholder"
 import { useEffect, useRef } from "react"
 
 const RoomTopBar = ({ Room }: { Room: MyRoomPayload }) => {

@@ -1,6 +1,6 @@
 import { RoomMetaType } from "src/lib/types"
-import ProfilePlaceholder from "../svg/ProfilePlaceholder"
-import GroupPlaceholder from "../svg/GroupPlaceholder"
+import ProfilePlaceholder from "../../svg/ProfilePlaceholder"
+import GroupPlaceholder from "../../svg/GroupPlaceholder"
 import { formatDate } from "src/lib/functions/DateFormatter"
 import { useTypedSelector } from "src/redux/store"
 import { SelectUnReadData } from "src/redux/api/selector"
