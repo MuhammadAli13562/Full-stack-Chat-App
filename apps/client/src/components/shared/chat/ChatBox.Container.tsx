@@ -5,13 +5,14 @@ import { selectedRoom } from "src/redux/selector"
 import { SelectRoomById } from "src/redux/api/selector"
 import { useTypedSelector } from "src/redux/store"
 import RoomTopBar from "./RoomTopBar"
+import ChatBoxPlaceholder from "./ChatBox.Placeholder"
 
 const ChatBoxContainer = () => {
   const {} = useGetUserDataFixedCache()
   const selected_Room = useTypedSelector(selectedRoom)
   const Room = useTypedSelector(state => SelectRoomById(state, selected_Room))
 
-  if (!Room) return <></>
+  if (!Room) return <ChatBoxPlaceholder />
   return (
     <div className="window-border flex-1 bg-dark-3 relative flex flex-col ">
       <RoomTopBar Room={Room} />

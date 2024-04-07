@@ -32,9 +32,8 @@ const ChatBox = ({ Room }: { Room: MyRoomPayload }) => {
   }
 
   useEffect(() => {
-    if (chatboxRef.current) {
+    if (chatboxRef.current)
       chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight
-    }
 
     if (document.hasFocus()) callback()
 
