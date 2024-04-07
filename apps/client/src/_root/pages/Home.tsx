@@ -9,6 +9,7 @@ const Home = () => {
   const {} = useGetUserDataFixedCache()
   const dispatch = useAppDispatch()
 
+  // unselect chats on escape press
   useEffect(() => {
     const handleGlobalKeyPress = (event: KeyboardEvent) => {
       if (event.key === "Escape") dispatch(SelectorSlice.actions.selection(-1))

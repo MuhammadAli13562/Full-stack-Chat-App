@@ -4,15 +4,19 @@ import { useSendMessageMutation } from "src/redux/api/user/sendUser"
 import sendLogo from "public/send.png"
 import emojiLogo from "public/emoji.png"
 import addLogo from "public/add.png"
+import useSound from "use-sound"
+import msgPop from "public/tones/mixkit-message-pop-alert-2354.mp3"
 
 const MessageEditor = ({ roomId }: { roomId: number }) => {
   const [SendMessage, { isLoading: isSendingMessage }] =
     useSendMessageMutation()
 
+  const [playPop] = useSound(msgPop)
   const [msg, setmsg] = useState("")
 
   const handleSendMessage = () => {
     SendMessage({ content: msg, roomId })
+    playPop()
     setmsg("")
   }
 

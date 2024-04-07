@@ -6,6 +6,9 @@ import { useTypedSelector } from "src/redux/store"
 import { SelectUnReadData } from "src/redux/api/selector"
 import isSelf from "src/lib/functions/isSelf"
 import getCurrUsername from "src/lib/functions/getCurrUsername"
+import { useEffect } from "react"
+import useSound from "use-sound"
+import alert from "public/tones/mixkit-bike-notification-bell-590.wav"
 
 const ChatSelector = ({ RoomMetaInfo }: { RoomMetaInfo: RoomMetaType }) => {
   let lastMessage = RoomMetaInfo.lastMessage
@@ -22,8 +25,12 @@ const ChatSelector = ({ RoomMetaInfo }: { RoomMetaInfo: RoomMetaType }) => {
   const RoomUnreadInfo = useTypedSelector(state =>
     SelectUnReadData(state, RoomMetaInfo.id),
   )
-
+  const [playAlert] = useSound(alert)
   const hasUnreadMsgs = RoomUnreadInfo && RoomUnreadInfo.count > 0
+
+  useEffect(() => {
+    if (RoomUnreadInfo && RoomUnreadInfo.count > 0) playAlert()
+  }, [RoomUnreadInfo])
 
   return (
     <div className="w-full  h-[85px] border-y-[1px] border-gray-800 flex flex-col justify-center border-solid px-4  ">
