@@ -42,6 +42,8 @@ const SignUpForm = () => {
       )
       toast.success("Registration Successful")
       localStorage.setItem("token", resp.token)
+      localStorage.setItem("username", creds.username)
+      navigate("/")
     } catch (error: any) {
       error.status === 409
         ? toast.error("Email or Username Already taken")

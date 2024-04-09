@@ -1,11 +1,11 @@
 import React from "react"
 
-const ProfilePlaceholder = () => {
+const ProfilePlaceholder = ({ width = 40 }: { width: number }) => {
   return (
     <svg
       viewBox="0 0 212 212"
-      height="45"
-      width="45"
+      height={width}
+      width={width}
       preserveAspectRatio="xMidYMid meet"
       className="ln8gz9je ppled2lx"
       version="1.1"

@@ -8,7 +8,6 @@ import RoomTopBar from "./RoomTopBar"
 import ChatBoxPlaceholder from "./ChatBox.Placeholder"
 
 const ChatBoxContainer = () => {
-  const {} = useGetUserDataFixedCache()
   const selected_Room = useTypedSelector(selectedRoom)
   const Room = useTypedSelector(state => SelectRoomById(state, selected_Room))
 

@@ -12,7 +12,7 @@ const SideBar = () => {
 
   return (
     <div className="relative ">
-      <div className=" flex flex-col gap-12 h-full border-secondary-600 border-[1px] border-r-0  w-[30vw] min-w-[440px] xl:w-[26vw] bg-dark-1 ">
+      <div className=" flex flex-col gap-12 h-full border-secondary-600 border-[1px] border-r-0  w-[30vw] min-w-[440px] xl:w-[26vw] bg-b-dark ">
         <div className="h-[60px] p-4 flex-between  bg-secondary-500 w-full border-r-[2px] border-gray-800 ">
           <ProfileToggle toggle={() => setToggleProfile(true)} />
           <div className="flex gap-2">

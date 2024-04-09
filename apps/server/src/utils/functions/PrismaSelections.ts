@@ -5,6 +5,11 @@ export const profileSelect = {
   bio: true,
   image: true,
   userId: true,
+  user: {
+    select: {
+      name: true,
+    },
+  },
 } satisfies Prisma.ProfileSelect;
 
 export type MyProfilePayload = Prisma.ProfileGetPayload<{

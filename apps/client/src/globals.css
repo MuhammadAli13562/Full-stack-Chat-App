@@ -141,6 +141,9 @@
   @apply flex flex-col justify-center items-center;
 }
 
+.col-start {
+  @apply flex flex-col justify-center items-start;
+}
 /* Auth Backgrounds*/
 
 .auth-bkg {
@@ -174,7 +177,7 @@
 }
 
 .window-border {
-  @apply border-l-[1px] border-secondary-600;
+  @apply border-x-[1px] border-secondary-600;
 }
 
 .bgImgCenter {

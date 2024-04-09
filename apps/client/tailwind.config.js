@@ -60,6 +60,7 @@ module.exports = {
         "secondary-500": "#222e35",
         "secondary-600": "#313c42",
         "b-dark": "#10171b",
+        "label-g": "#2b916a",
         "off-white": "#D0DFFF",
         red: "#FF5A5A",
         "dark-1": "#000000",

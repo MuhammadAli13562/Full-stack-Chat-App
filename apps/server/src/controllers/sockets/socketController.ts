@@ -68,11 +68,13 @@ export const SocketServerInit = (server: http.Server) => {
       const room = await CreateP2PRoom(userId, contact_username);
       if (contact)
         io.in("user_" + userId).emit(WEBSOCKET_TAGS.SERVER.NewContactFromServer, contact);
-      if (room)
+      if (room) {
+        socket.join("room_" + room.id);
         io.in(["user_" + userId, "user_" + contact?.id]).emit(
           WEBSOCKET_TAGS.SERVER.NewRoomFromServer,
           room
         );
+      }
       if (contact) {
         if (room) callback({ status: "Success - Contact & Room Created" });
         else callback({ status: "Success - Contact Created" });

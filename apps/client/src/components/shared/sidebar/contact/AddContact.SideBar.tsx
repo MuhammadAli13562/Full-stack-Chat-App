@@ -16,6 +16,7 @@ const AddContact = ({
   const [username, setUsername] = useState("")
   const [validationError, setValidationError] = useState("")
   const [AddContact, { isLoading, isSuccess }] = useAddNewContactMutation()
+  const [message, setMessage] = useState("")
 
   const addContactSchema = z
     .string()
@@ -30,14 +31,18 @@ const AddContact = ({
     if (!visibility) {
       setValidationError("")
       setUsername("")
+      setMessage("")
     }
   }, [visibility])
 
   const handleAddContact = async () => {
     try {
+      setMessage("")
+      setValidationError("")
       addContactSchema.parse(username)
-      const resp = await AddContact(username)
+      const resp: any = await AddContact(username)
       console.log("RESP ADDCONTACT : ", resp)
+      if (resp.data.split(" ")[0]) setMessage(resp.data)
 
       setValidationError("")
     } catch (error: any) {
@@ -59,9 +64,13 @@ const AddContact = ({
       <div className="h-28 bg-secondary-500">
         <div className="flex  items-end gap-4 h-full p-4">
           <button onClick={toggle} className="px-4">
-            <img className=" opacity-50" src={backLogo} width={30} />
+            <img
+              className=" scale-75 opacity-[0.8]"
+              src={backLogo}
+              width={30}
+            />
           </button>
-          <span className="text-lg font-inter">Add New Contact</span>
+          <span className="text-lg font-bold">Add New Contact</span>
         </div>
       </div>
       <div className="flex-1 col-center">
@@ -76,6 +85,9 @@ const AddContact = ({
             />
             <span className="text-sm text-red max-w-[20rem]">
               {validationError}
+            </span>
+            <span className="text-sm text-yellow-400 max-w-[20rem]">
+              {message}
             </span>
           </div>
 

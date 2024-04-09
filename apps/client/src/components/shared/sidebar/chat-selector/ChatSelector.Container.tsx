@@ -5,7 +5,6 @@ import ChatSelector from "./ChatSelector"
 import { SelectorSlice, selectedRoom } from "src/redux/selector"
 import { useEffect } from "react"
 import useSound from "use-sound"
-import wosh from "public/tones/mixkit-air-woosh-1489.wav"
 import toy from "public/tones/mixkit-cartoon-toy-whistle-616.wav"
 
 const ChatSelectorContainer = () => {
@@ -13,15 +12,14 @@ const ChatSelectorContainer = () => {
   const RoomMetaData = useTypedSelector(SelectRoomMeta)
   const selected_Room = useTypedSelector(selectedRoom)
   const dispatch = useAppDispatch()
-  const [play] = useSound(wosh)
   const [playEsc] = useSound(toy)
 
   useEffect(() => {
-    selected_Room === -1 ? playEsc() : play()
+    selected_Room === -1 && playEsc()
   }, [selected_Room])
 
   return (
-    <div className="">
+    <div className=" ">
       {RoomMetaData.map((room, index) => {
         return (
           <div

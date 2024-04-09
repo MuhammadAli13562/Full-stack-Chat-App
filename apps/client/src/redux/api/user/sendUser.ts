@@ -66,7 +66,7 @@ export const SendUserApi = api.injectEndpoints({
             (resp: any) => {
               console.log("resp : ", resp)
 
-              resolve({ data: "123" })
+              resolve({ data: resp.status })
             },
           )
         })

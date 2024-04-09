@@ -65,7 +65,7 @@ const ChatSelector = ({ RoomMetaInfo }: { RoomMetaInfo: RoomMetaType }) => {
             </div>
           </div>
           {/*Last Message */}
-          <div className="flex-between">
+          <div className="flex-between min-h-7">
             <span
               className={
                 hasUnreadMsgs

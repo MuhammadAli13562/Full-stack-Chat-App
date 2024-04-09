@@ -22,7 +22,7 @@ export const useVerificationOnMount = () => {
       } catch (error: any) {
         console.log("error ver : ", error.message)
 
-        navigate("/sign-in")
+        path === "/sign-up" ? navigate(path) : navigate("/sign-in")
       }
     }
 
