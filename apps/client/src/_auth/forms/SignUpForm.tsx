@@ -17,8 +17,10 @@ import { Link, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import React from "react"
 import { useSignUpUserMutation } from "src/redux/api/auth/auth"
+import { useVerificationOnMount } from "src/lib/hooks"
 
 const SignUpForm = () => {
+  useVerificationOnMount()
   const [SignUp] = useSignUpUserMutation()
   const navigate = useNavigate()
   const form = useForm<z.infer<typeof SignUpFormValidation>>({

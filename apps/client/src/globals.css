@@ -2,81 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --beige: #ede7dc;
-  --beige-rgb: 237, 231, 220;
-  --black: #0b141a;
-  --black-rgb: 11, 20, 26;
-  --blue-light: #009de2;
-  --blue-light-rgb: 0, 157, 226;
-  --blue-ocean: #93d7f5;
-  --blue-ocean-rgb: 147, 215, 245;
-  --blue-sky: #93d7f5;
-  --blue-sky-rgb: 147, 215, 245;
-  --blue-sky-light: #def3fc;
-  --blue-sky-light-rgb: 222, 243, 252;
-  --blue: #027eb5;
-  --blue-rgb: 2, 126, 181;
-  --dark: #0b141a;
-  --dark-rgb: 11, 20, 26;
-  --green-deep: #1fa855;
-  --green-deep-rgb: 31, 168, 85;
-  --green: #25d366;
-  --green-rgb: 37, 211, 102;
-  --green-accent: #25d366;
-  --green-accent-rgb: 37, 211, 102;
-  --orange: #fc9775;
-  --orange-rgb: 252, 151, 117;
-  --pale-blue-green: #d5fded;
-  --pale-blue-green-rgb: 213, 253, 237;
-  --pale-green: #d9fdd3;
-  --pale-green-rgb: 217, 253, 211;
-  --pale-yellow: #fff0d4;
-  --pale-yellow-rgb: 255, 240, 212;
-  --red-light: #f15c6d;
-  --red-light-rgb: 241, 92, 109;
-  --red: #ea0038;
-  --red-rgb: 234, 0, 56;
-  --teal-light: #7ae3c3;
-  --teal-light-rgb: 122, 227, 195;
-  --teal-lighter: #00a884;
-  --teal-lighter-rgb: 0, 168, 132;
-  --teal: #008069;
-  --teal-rgb: 0, 128, 105;
-  --white: white;
-  --white-rgb: 255, 255, 255;
-  --yellow: #ffd279;
-  --yellow-rgb: 255, 210, 121;
-  --gray-30: #f7f8fa;
-  --gray-30-rgb: 247, 248, 250;
-  --gray-60: #f0f2f5;
-  --gray-60-rgb: 240, 242, 245;
-  --gray-70: #f0f2f5;
-  --gray-70-rgb: 240, 242, 245;
-  --gray-100: #e9edef;
-  --gray-100-rgb: 233, 237, 239;
-  --gray-150: #d1d7db;
-  --gray-150-rgb: 209, 215, 219;
-  --gray-200: #d1d7db;
-  --gray-200-rgb: 209, 215, 219;
-  --gray-300: #aebac1;
-  --gray-300-rgb: 174, 186, 193;
-  --gray-400: #8696a0;
-  --gray-400-rgb: 134, 150, 160;
-  --gray-500: #667781;
-  --gray-500-rgb: 102, 119, 129;
-  --gray-600: #54656f;
-  --gray-600-rgb: 84, 101, 111;
-  --gray-700: #3b4a54;
-  --gray-700-rgb: 59, 74, 84;
-  --gray-800: #202c33;
-  --gray-800-rgb: 32, 44, 51;
-  --gray-850: #111b21;
-  --gray-850-rgb: 17, 27, 33;
-  --gray-900: #111b21;
-  --gray-900-rgb: 17, 27, 33;
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -245,9 +170,19 @@
 /* Message Components  */
 
 .message-card {
-  @apply px-2 min-w-[50px] max-w-[700px] border-2 rounded-lg min-h-[35px] border-solid border-dark-4;
+  @apply px-2 min-w-[150px] max-w-[700px]  border-2 rounded-xl min-h-[35px] border-solid border-dark-3;
 }
 
 .window-border {
-  @apply border-l-[1px] border-gray-700;
+  @apply border-l-[1px] border-secondary-600;
+}
+
+.bgImgCenter {
+  background-image: url("public/chatbg2.jpg");
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.shadcn-btn {
+  @apply bg-black text-white;
 }

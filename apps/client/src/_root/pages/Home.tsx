@@ -1,12 +1,11 @@
 import useGetUserDataFixedCache from "src/redux/hooks/useGetUserDataFixedCache"
-import LeftBar from "src/components/shared/sidebar/LeftBar"
-import ChatBoxContainer from "src/components/shared/chat/ChatBox.Container"
+import LeftBar from "src/components/shared/sidebar/SideBar"
+import ChatBoxContainer from "src/components/shared/chatBox/ChatBox.Container"
 import { useEffect } from "react"
 import { useAppDispatch } from "src/redux/store"
 import { SelectorSlice } from "src/redux/selector"
 
 const Home = () => {
-  const {} = useGetUserDataFixedCache()
   const dispatch = useAppDispatch()
 
   // unselect chats on escape press

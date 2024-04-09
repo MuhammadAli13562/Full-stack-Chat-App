@@ -4,8 +4,8 @@ const ProfilePlaceholder = () => {
   return (
     <svg
       viewBox="0 0 212 212"
-      height="60"
-      width="60"
+      height="45"
+      width="45"
       preserveAspectRatio="xMidYMid meet"
       className="ln8gz9je ppled2lx"
       version="1.1"

@@ -73,11 +73,12 @@ export const SocketServerInit = (server: http.Server) => {
           WEBSOCKET_TAGS.SERVER.NewRoomFromServer,
           room
         );
-      if (contact && room) {
-        callback({ status: "Contact & Room Created" });
+      if (contact) {
+        if (room) callback({ status: "Success - Contact & Room Created" });
+        else callback({ status: "Success - Contact Created" });
         return;
       }
-      callback({ status: "Error Creating New Contact" });
+      callback({ status: "Error - Creating New Contact" });
     });
 
     socket.on(WEBSOCKET_TAGS.CLIENT.FetchRoomData, async (roomId: number) => {

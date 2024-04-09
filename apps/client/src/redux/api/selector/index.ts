@@ -3,10 +3,10 @@ import { GetUserApi } from "../user/getUser"
 import * as _ from "lodash"
 import CompareOnLastMsg from "src/lib/functions/CompareOnLastMsg"
 import getUnreadData from "src/lib/functions/getUnreadData"
+import { fixedCacheKey } from "src/constants"
 
-export const SelectUserResult = GetUserApi.endpoints.getUserData.select(
-  import.meta.env.VITE_FIXED_CACHE_KEY,
-)
+export const SelectUserResult =
+  GetUserApi.endpoints.getUserData.select(fixedCacheKey)
 
 export const SelectAllRooms = createSelector(
   SelectUserResult,
@@ -18,10 +18,12 @@ export const SelectRoomById = createSelector(
   (rooms, roomId) => rooms.find(room => room.id === roomId),
 )
 
-export const SelectProfile = createSelector(
-  [SelectUserResult],
-  userResult => userResult.data?.profile ?? 123,
-)
+export const SelectUserInfo = createSelector([SelectUserResult], userResult => {
+  if (!userResult.data) return null
+
+  const { rooms, ...info } = userResult.data
+  return info
+})
 
 export const SelectRoomMeta = createSelector([SelectAllRooms], Rooms => {
   const rooms = Rooms.map(room => {

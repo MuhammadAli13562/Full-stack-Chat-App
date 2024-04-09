@@ -56,7 +56,6 @@ export const SendUserApi = api.injectEndpoints({
     }),
     addNewContact: builder.mutation<any, string>({
       queryFn: (contact_username: string) => {
-        console.log("Before Socket")
         const socket = getSocket()
         console.log("Add New Cont")
 
@@ -65,7 +64,9 @@ export const SendUserApi = api.injectEndpoints({
             WEBSOCKET_TAGS.CLIENT.AddNewContact,
             contact_username,
             (resp: any) => {
-              resolve(resp)
+              console.log("resp : ", resp)
+
+              resolve({ data: "123" })
             },
           )
         })
