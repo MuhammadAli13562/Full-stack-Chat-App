@@ -78,7 +78,7 @@ model Room {
 model Profile {
 
   id Int @id @default(autoincrement())
-  bio String?
+  bio String @default("Hey , Let's chat !")
   image String?
   user User @relation(fields: [userId] ,references: [id] , onDelete: Cascade , onUpdate: Cascade)
   userId Int   @unique

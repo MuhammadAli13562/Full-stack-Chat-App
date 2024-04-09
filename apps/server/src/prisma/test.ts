@@ -7,4 +7,12 @@ async function DeleteAllMessages() {
     console.log("ERROR DELETING MESSAGE");
   }
 }
-DeleteAllMessages();
+
+async function DeleteAllUsers() {
+  try {
+    await prisma.user.deleteMany({});
+  } catch (error) {
+    console.log("ERROR DELETING USERS");
+  }
+}
+DeleteAllUsers();
