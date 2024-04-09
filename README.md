@@ -4,4 +4,6 @@
 #### **Backend** : ExpressJS , Socket io , Prisma ORM
 
 
-![CHAT2](https://github.com/MuhammadAli13562/Full-stack-Chat-App/assets/40227926/6710e293-e568-4f21-bfa4-11acc934f6af)
+#### Current Status :
+
+![chatup](https://github.com/MuhammadAli13562/Full-stack-Chat-App/assets/40227926/a96ed0cf-3353-4fe3-a855-ea92015aba0f)
