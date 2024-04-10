@@ -14,6 +14,9 @@ export const CreateNewUser = async (userInfo: userInfotype) => {
         username,
         email,
         passwordHash,
+        profile: {
+          create: {},
+        },
       },
       select: userSelect,
     });

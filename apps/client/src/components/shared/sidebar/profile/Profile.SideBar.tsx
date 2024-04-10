@@ -42,9 +42,7 @@ const Profile = ({
           {UserInfo?.profile?.image ? (
             <img />
           ) : (
-            <div className="">
-              <ProfilePlaceholder width={200} />
-            </div>
+            <ProfilePlaceholder width={200} />
           )}
         </div>
         <div className="col-start">

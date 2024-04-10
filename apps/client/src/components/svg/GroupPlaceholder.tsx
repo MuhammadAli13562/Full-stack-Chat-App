@@ -1,11 +1,11 @@
 import React from "react"
 
-const GroupPlaceholder = () => {
+const GroupPlaceholder = ({ width = 40 }: { width: number }) => {
   return (
     <svg
       viewBox="0 0 212 212"
-      height="60"
-      width="60"
+      height={width}
+      width={width}
       preserveAspectRatio="xMidYMid meet"
       className="ln8gz9je ppled2lx"
       fill="none"
