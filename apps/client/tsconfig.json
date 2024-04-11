@@ -19,8 +19,7 @@
     "baseUrl": ".",
     "paths": {
       "src/*": ["src/*"],
-      "@backend/*": ["../server/src/utils/*"],
-      "@/*": ["src/*"]
+      "@backend/*": ["../server/src/utils/*"]
     }
   },
   "references": [{ "path": "./tsconfig.node.json" }]
