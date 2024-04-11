@@ -38,9 +38,9 @@ const ChatSelector = ({ RoomMetaInfo }: { RoomMetaInfo: RoomMetaType }) => {
         {/*Profile Picture*/}
         <div className=" opacity-80">
           {RoomMetaInfo.isPeer2Peer ? (
-            <ProfilePlaceholder />
+            <ProfilePlaceholder width={40} />
           ) : (
-            <GroupPlaceholder />
+            <GroupPlaceholder width={40} />
           )}
         </div>
         <div className=" w-full  flex flex-col  ">

@@ -26,7 +26,11 @@ const RoomTopBar = ({ Room }: { Room: MyRoomPayload }) => {
         <div className="flex items-center gap-2">
           {/*Profile Picture*/}
           <div className=" opacity-75">
-            {Room.isPeer2Peer ? <ProfilePlaceholder /> : <GroupPlaceholder />}
+            {Room.isPeer2Peer ? (
+              <ProfilePlaceholder width={40} />
+            ) : (
+              <GroupPlaceholder width={40} />
+            )}
           </div>
           <div className="flex flex-col items-start">
             {/*Room Name*/}
