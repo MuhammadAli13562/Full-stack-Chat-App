@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./src/index.ts"
+    "dev": "nodemon ./src/index.ts",
+    "postinstall": "pnpm dlx prisma generate"
   },
   "author": "",
   "license": "ISC",
