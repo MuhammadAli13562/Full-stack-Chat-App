@@ -29,18 +29,22 @@ const getUnreadData = (Room: MyRoomPayload) => {
 
   const unread_msgs_ids = unread_msgs.map((msg: MyMessagePayload) => msg.id)
 
-  return {
-    count: unread_msgs.length,
-    messageIds: unread_msgs_ids,
-    lastMessage:
-      Object.keys(lastMessage).length > 0
-        ? {
-            content: lastMessage.content,
-            createdAt: lastMessage.createdAt,
-            authorName: lastMessage.author.name,
-          }
-        : null,
-  }
+  const empty0bject = { count: 0, messageIds: [], lastMessage: null }
+
+  return lastMessage
+    ? {
+        count: unread_msgs.length,
+        messageIds: unread_msgs_ids,
+        lastMessage:
+          Object.keys(lastMessage).length > 0
+            ? {
+                content: lastMessage.content,
+                createdAt: lastMessage.createdAt,
+                authorName: lastMessage.author.name,
+              }
+            : null,
+      }
+    : empty0bject
 }
 
 export default getUnreadData
