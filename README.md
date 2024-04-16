@@ -1,10 +1,10 @@
 # Project Under Development
 
-#### **Frontend** : React + Vite , Redux Toolkit , Tailwind CSS , Shadcn UI
+## **Frontend** : React + Vite , Redux Toolkit , Tailwind CSS , Shadcn UI
 
-#### **Backend** : ExpressJS , Socket io , Prisma ORM
+## **Backend** : ExpressJS , Socket io , Prisma ORM
 
-## Deployment : Vercel / AWS-EC2
+### Deployment : Vercel / AWS-EC2
 
 #### Current Status :
 
