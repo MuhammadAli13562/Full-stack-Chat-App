@@ -3,7 +3,7 @@ import { Socket, io } from "socket.io-client"
 let socket: Socket
 export function getSocket() {
   if (!socket)
-    socket = io(import.meta.env.VITE_SERVER_ENDPOINT, {
+    socket = io("https://chatapp.ali-98-ec2-backend.click", {
       autoConnect: false,
     })
 
