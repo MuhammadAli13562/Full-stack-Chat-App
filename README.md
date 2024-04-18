@@ -8,4 +8,5 @@
 
 #### Current Status :
 
-![chatup](https://github.com/MuhammadAli13562/Full-stack-Chat-App/assets/40227926/a96ed0cf-3353-4fe3-a855-ea92015aba0f)
+https://github.com/MuhammadAli13562/Full-stack-Chat-App/assets/40227926/8db3a401-c0f4-4773-8f32-ab158f5ac837
+
