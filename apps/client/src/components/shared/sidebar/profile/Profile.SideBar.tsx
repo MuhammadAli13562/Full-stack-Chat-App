@@ -3,6 +3,7 @@ import { SelectUserInfo } from "src/redux/api/selector"
 import { useTypedSelector } from "src/redux/store"
 import backLogo from "public/back.png"
 import ProfilePlaceholder from "src/components/svg/ProfilePlaceholder"
+import { useAnimate } from "framer-motion"
 
 const Profile = ({
   toggle,
@@ -12,18 +13,17 @@ const Profile = ({
   visibility: boolean
 }) => {
   const UserInfo = useTypedSelector(SelectUserInfo)
+  const [scope, animate] = useAnimate()
 
   useEffect(() => {
-    console.log("RETRIGG : ", UserInfo)
-  }, [UserInfo])
+    if (visibility) animate(scope.current, { x: 0 }, { duration: 0.2 })
+    else animate(scope.current, { x: -550 }, { duration: 0.2 })
+  }, [visibility])
 
   return (
     <div
-      className={
-        !visibility
-          ? "hidden"
-          : "absolute bg-[#10171b] top-0 0 h-full w-full flex flex-col"
-      }
+      ref={scope}
+      className={"absolute bg-[#10171b] top-0 0 h-full w-full flex flex-col"}
     >
       <div className="h-28 bg-secondary-500">
         <div className="flex  items-end gap-4 h-full p-4">

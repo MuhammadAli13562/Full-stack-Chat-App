@@ -6,7 +6,7 @@ const RootLayout = () => {
   useSocketConnectOnMount()
   return (
     <div className="w-full md:flex">
-      <section className="flex flex-1 bg-black">
+      <section className="flex flex-1 bg-black ">
         <Outlet />
       </section>
     </div>

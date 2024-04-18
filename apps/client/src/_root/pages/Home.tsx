@@ -4,6 +4,7 @@ import ChatBoxContainer from "src/components/shared/chatBox/ChatBox.Container"
 import { useEffect } from "react"
 import { useAppDispatch } from "src/redux/store"
 import { SelectorSlice } from "src/redux/selector"
+import BackgroundFiller from "src/components/shared/BackgroundFiller"
 
 const Home = () => {
   const dispatch = useAppDispatch()
@@ -22,9 +23,10 @@ const Home = () => {
   }, [])
 
   return (
-    <div className="flex text-white text-3xl w-full py-0 2xl:py-6 2xl:px-[5vw] justify-center ">
+    <div className="relative flex  border-2 border-black text-white text-3xl w-full py-0 2xl:py-6 2xl:px-[5vw] justify-center ">
       <LeftBar />
       <ChatBoxContainer />
+      <BackgroundFiller />
     </div>
   )
 }

@@ -3,7 +3,13 @@ import backLogo from "public/back.png"
 import { Input } from "src/components/ui/input"
 import { useEffect, useState } from "react"
 import { useAddNewContactMutation } from "src/redux/api/user/sendUser"
-import { ZodError, z } from "zod"
+import { z } from "zod"
+import {
+  animationControls,
+  motion,
+  useAnimate,
+  useAnimationControls,
+} from "framer-motion"
 import getCurrUsername from "src/lib/functions/getCurrUsername"
 
 const AddContact = ({
@@ -17,6 +23,7 @@ const AddContact = ({
   const [validationError, setValidationError] = useState("")
   const [AddContact, { isLoading, isSuccess }] = useAddNewContactMutation()
   const [message, setMessage] = useState("")
+  const [scope, animate] = useAnimate()
 
   const addContactSchema = z
     .string()
@@ -32,7 +39,10 @@ const AddContact = ({
       setValidationError("")
       setUsername("")
       setMessage("")
+      animate(scope.current, { x: -550 }, { duration: 0.2 })
     }
+
+    if (visibility) animate(scope.current, { x: 0 }, { duration: 0.2 })
   }, [visibility])
 
   const handleAddContact = async () => {
@@ -55,11 +65,8 @@ const AddContact = ({
 
   return (
     <div
-      className={
-        !visibility
-          ? "hidden"
-          : "absolute bg-[#10171b] top-0 0 h-full w-full flex flex-col"
-      }
+      ref={scope}
+      className={"absolute bg-[#10171b] top-0 0 h-full w-full flex flex-col"}
     >
       <div className="h-28 bg-secondary-500">
         <div className="flex  items-end gap-4 h-full p-4">
