@@ -9,7 +9,8 @@ export const SignUpFormValidation = z.object({
   username: z
     .string()
     .min(6, { message: "username must be atleast 6 characters " })
-    .max(20, { message: "username must not exceed 20 characters " }),
+    .max(20, { message: "username must not exceed 20 characters " })
+    .regex(/^\S+$/, { message: "username cant have spaces" }),
   password: z
     .string()
     .min(6, { message: "password must be atleast 6 characters " })
@@ -20,7 +21,9 @@ export const SignInFormValidation = z.object({
   username: z
     .string()
     .min(6, { message: "username must be atleast 6 characters " })
-    .max(20, { message: "username must not exceed 20 characters " }),
+    .max(20, { message: "username must not exceed 20 characters " })
+    .regex(/^\S+$/, { message: "username cant have spaces" }),
+
   password: z
     .string()
     .min(6, { message: "password must be atleast 6 characters " })

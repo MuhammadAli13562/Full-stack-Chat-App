@@ -4,12 +4,7 @@ import { Input } from "src/components/ui/input"
 import { useEffect, useState } from "react"
 import { useAddNewContactMutation } from "src/redux/api/user/sendUser"
 import { z } from "zod"
-import {
-  animationControls,
-  motion,
-  useAnimate,
-  useAnimationControls,
-} from "framer-motion"
+import { motion, useAnimate } from "framer-motion"
 import getCurrUsername from "src/lib/functions/getCurrUsername"
 import { SideAnimationExit, SideAnimationOpen } from "src/constants"
 
@@ -30,7 +25,7 @@ const AddContact = ({
     .string()
     .min(6, { message: " " })
     .max(20, { message: " " })
-    .regex(/^\S+$/, { message: " " })
+    .regex(/^\S+$/, { message: "username cant have spaces" })
     .refine(usnm => usnm != getCurrUsername(), {
       message: "Cant add themselves as contact",
     })
