@@ -3,7 +3,8 @@ import { SelectUserInfo } from "src/redux/api/selector"
 import { useTypedSelector } from "src/redux/store"
 import backLogo from "public/back.png"
 import ProfilePlaceholder from "src/components/svg/ProfilePlaceholder"
-import { useAnimate } from "framer-motion"
+import { useAnimate, motion } from "framer-motion"
+import { SideAnimationExit, SideAnimationOpen } from "src/constants"
 
 const Profile = ({
   toggle,
@@ -16,12 +17,13 @@ const Profile = ({
   const [scope, animate] = useAnimate()
 
   useEffect(() => {
-    if (visibility) animate(scope.current, { x: 0 }, { duration: 0.2 })
-    else animate(scope.current, { x: -550 }, { duration: 0.2 })
+    if (visibility) animate(scope.current, ...SideAnimationOpen)
+    else animate(scope.current, ...SideAnimationExit)
   }, [visibility])
 
   return (
-    <div
+    <motion.div
+      initial={{ x: -500 }}
       ref={scope}
       className={"absolute bg-[#10171b] top-0 0 h-full w-full flex flex-col"}
     >
@@ -54,7 +56,7 @@ const Profile = ({
           <span className="text-lg">{UserInfo?.profile?.bio}</span>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

@@ -11,6 +11,7 @@ import {
   useAnimationControls,
 } from "framer-motion"
 import getCurrUsername from "src/lib/functions/getCurrUsername"
+import { SideAnimationExit, SideAnimationOpen } from "src/constants"
 
 const AddContact = ({
   toggle,
@@ -39,10 +40,10 @@ const AddContact = ({
       setValidationError("")
       setUsername("")
       setMessage("")
-      animate(scope.current, { x: -550 }, { duration: 0.2 })
+      animate(scope.current, ...SideAnimationExit)
     }
 
-    if (visibility) animate(scope.current, { x: 0 }, { duration: 0.2 })
+    if (visibility) animate(scope.current, ...SideAnimationOpen)
   }, [visibility])
 
   const handleAddContact = async () => {
@@ -64,7 +65,8 @@ const AddContact = ({
   }
 
   return (
-    <div
+    <motion.div
+      initial={{ x: -500 }}
       ref={scope}
       className={"absolute bg-[#10171b] top-0 0 h-full w-full flex flex-col"}
     >
@@ -107,7 +109,7 @@ const AddContact = ({
           </Button>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
