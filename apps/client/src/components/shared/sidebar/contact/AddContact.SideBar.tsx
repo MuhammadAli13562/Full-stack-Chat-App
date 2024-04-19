@@ -7,6 +7,7 @@ import { z } from "zod"
 import { motion, useAnimate } from "framer-motion"
 import getCurrUsername from "src/lib/functions/getCurrUsername"
 import { SideAnimationExit, SideAnimationOpen } from "src/constants"
+import { addContactSchema } from "src/lib/validation"
 
 const AddContact = ({
   toggle,
@@ -20,15 +21,6 @@ const AddContact = ({
   const [AddContact, { isLoading, isSuccess }] = useAddNewContactMutation()
   const [message, setMessage] = useState("")
   const [scope, animate] = useAnimate()
-
-  const addContactSchema = z
-    .string()
-    .min(6, { message: " " })
-    .max(20, { message: " " })
-    .regex(/^\S+$/, { message: "username cant have spaces" })
-    .refine(usnm => usnm != getCurrUsername(), {
-      message: "Cant add themselves as contact",
-    })
 
   useEffect(() => {
     if (!visibility) {
