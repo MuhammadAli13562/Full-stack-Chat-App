@@ -1,5 +1,5 @@
 import { MyRoomPayload } from "@backend/functions/PrismaSelections"
-import { useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef } from "react"
 import { SameDayDate } from "src/lib/functions/DateFormatter"
 import MessageCard from "./MessageCard"
 import DateSticker from "./DateSticker"
@@ -19,7 +19,8 @@ const ChatBox = ({ Room }: { Room: MyRoomPayload }) => {
 
   console.log("current unread info : ", RoomUnreadInfo)
 
-  const callback = () => {
+  // redefine everytime UnreadInfo Changes
+  const callback = useCallback(async () => {
     if (RoomUnreadInfo && RoomUnreadInfo.count > 0) {
       const payloadToBeSent = {
         messageIds: RoomUnreadInfo.messageIds,
@@ -27,9 +28,9 @@ const ChatBox = ({ Room }: { Room: MyRoomPayload }) => {
       }
       console.log("payload to be sent : ", payloadToBeSent)
 
-      readMessagesInChat(payloadToBeSent)
+      await readMessagesInChat(payloadToBeSent)
     }
-  }
+  }, [RoomUnreadInfo])
 
   useEffect(() => {
     if (chatboxRef.current)
@@ -42,7 +43,7 @@ const ChatBox = ({ Room }: { Room: MyRoomPayload }) => {
     return () => {
       window.removeEventListener("focus", callback)
     }
-  }, [Room, callback])
+  }, [Room])
 
   return (
     <div className=" flex flex-1 flex-col justify-end h-[70vh] 2xl:h-[80vh]">

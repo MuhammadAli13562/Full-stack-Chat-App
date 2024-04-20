@@ -1,6 +1,5 @@
 import ChatBox from "./ChatBox"
 import MessageEditor from "./MessageEditor"
-import useGetUserDataFixedCache from "src/redux/hooks/useGetUserDataFixedCache"
 import { selectedRoom } from "src/redux/selector"
 import { SelectRoomById } from "src/redux/api/selector"
 import { useTypedSelector } from "src/redux/store"

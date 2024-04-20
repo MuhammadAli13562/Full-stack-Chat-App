@@ -15,9 +15,11 @@ const MessageEditor = ({ roomId }: { roomId: number }) => {
   const [msg, setmsg] = useState("")
 
   const handleSendMessage = () => {
-    SendMessage({ content: msg, roomId })
-    playPop()
-    setmsg("")
+    if (msg.length > 0) {
+      SendMessage({ content: msg, roomId })
+      playPop()
+      setmsg("")
+    }
   }
 
   return (

@@ -15,7 +15,10 @@ export const SelectAllRooms = createSelector(
 
 export const SelectRoomById = createSelector(
   [SelectAllRooms, (_, roomId: number) => roomId],
-  (rooms, roomId) => rooms.find(room => room.id === roomId),
+  (rooms, roomId) => {
+    console.log("selectRbid trig")
+    return rooms.find(room => room.id === roomId)
+  },
 )
 
 export const SelectUserInfo = createSelector([SelectUserResult], userResult => {
@@ -46,6 +49,6 @@ export const SelectRoomMeta = createSelector([SelectAllRooms], Rooms => {
   return rooms
 })
 
-export const SelectUnReadData = createSelector([SelectRoomById], room => {
-  return room ? getUnreadData(room) : null
-})
+export const SelectUnReadData = createSelector([SelectRoomById], room =>
+  room ? getUnreadData(room) : null,
+)
