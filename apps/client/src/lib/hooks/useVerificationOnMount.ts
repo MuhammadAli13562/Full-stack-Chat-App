@@ -11,17 +11,16 @@ export const useVerificationOnMount = () => {
   useEffect(() => {
     async function Verify() {
       try {
+        if (localStorage.getItem("token") === null) throw Error("not signed in")
+
         const resp: any = await VerifyUser()
         if (resp.error) throw Error(resp.error.data.status)
-        console.log("In verification", resp)
 
         if (path === "/sign-in") {
           toast.info("Already Signed In", { position: "top-center" })
           navigate("/")
         }
       } catch (error: any) {
-        console.log("error ver : ", error.message)
-
         path === "/sign-up" ? navigate(path) : navigate("/sign-in")
       }
     }
